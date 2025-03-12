@@ -1,0 +1,2 @@
+class FriendManager:
+    pass

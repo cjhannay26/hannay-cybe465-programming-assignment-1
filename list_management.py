@@ -1,0 +1,2 @@
+class ListManager:
+    pass
