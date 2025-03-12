@@ -14,9 +14,6 @@ class ListManager:
         if list_name not in self.lists:
             print(f"Error: List '{list_name}' does not exist.")
             return
-        if not friend_name in self.lists:
-            print(f"Error: Friend '{friend_name}' does not exist.")
-            return
         self.lists[list_name].add(friend_name)
 
     def load_from_file(self):
@@ -31,6 +28,6 @@ class ListManager:
             print(f"Warning: {self.filename} not found. Starting with an empty list.")
 
     def save_to_file(self):
-        with open("lists.txt", 'a') as f:
+        with open("lists.txt", 'w') as f:
             for list_name, members in self.lists.items():
                 f.write(f"{list_name} {' '.join(members)}\n")

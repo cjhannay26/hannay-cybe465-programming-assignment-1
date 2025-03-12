@@ -43,7 +43,7 @@ class PictureManager:
             return
         return "\n".join(self.pictures[picture_name]['comments'])
 
-    def write_comment(self, picture_name, comment):
+    def write_comments(self, picture_name, comment):
         if picture_name not in self.pictures:
             print(f"Error: Picture '{picture_name}' does not exist.")
             return
