@@ -44,7 +44,7 @@ class MyFacebook:
         
         elif instruction == "chlst": self.change_list(parts[1], parts[2])
 
-        elif instruction == "chmod": self.change_permissions(parts[1], parts[2:])
+        elif instruction == "chmod": self.change_permissions(parts[1], parts[2:5])
 
         elif instruction == "chown": self.change_owner(parts[1], parts[2])
 
@@ -104,19 +104,22 @@ class MyFacebook:
 
     def change_permissions(self, picture_name, permissions):
         self.picture_manager.change_permissions(picture_name, permissions)
-        self.logger.log_action(f"Permissions for {picture_name} set to {permissions}")
+        owner, list, others = permissions[:3]
+        self.logger.log_action(f"Permissions for {picture_name} set to {owner} {list} {others} by {self.current_viewer}")
 
     def change_owner(self, picture_name, new_owner):
         self.picture_manager.change_owner(picture_name, new_owner)
         self.logger.log_action(f"Owner of {picture_name} changed to {new_owner}")
 
     def read_comments(self, picture_name):
-        comment = self.picture_manager.read_comments(picture_name)
-        self.logger.log_action(f"Friend {self.current_viewer} reads {picture_name} as:\n{comment}")
+        comment = self.picture_manager.read_comments(picture_name, self.current_viewer, self.logger)
+        if comment is not None:
+            self.logger.log_action(f"Friend {self.current_viewer} reads {picture_name} as:\n{comment}")
 
     def write_comments(self, picture_name, comment_text):
-        self.picture_manager.write_comments(picture_name, comment_text)
-        self.logger.log_action(f"Friend {self.current_viewer} wrote to {picture_name}: {comment_text}")
+        success = self.picture_manager.write_comments(picture_name, self.current_viewer, comment_text, self.logger)
+        if success:
+            self.logger.log_action(f"Friend {self.current_viewer} wrote to {picture_name}: {comment_text}")
 
     def end(self):
         # Writing all data back to files

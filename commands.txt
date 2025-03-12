@@ -12,7 +12,8 @@ postpicture file1.txt
 writecomments file1.txt Text from Alice in file1
 postpicture file2.txt
 writecomments file2.txt Text from Alice in file2
-chmod file2.txt rw rw rchlst file2.txt students
+chmod file2.txt rw rw r-
+chlst file2.txt students
 logout
 viewby tom
 readcomments file1.txt

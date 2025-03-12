@@ -8,4 +8,4 @@ class Logger:
 
     def log_error(self, error):
         with open(self.audit_log, 'a') as f:
-            f.write(f"ERROR: {error}\n")
+            f.write(f"{error}\n")
