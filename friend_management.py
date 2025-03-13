@@ -4,9 +4,9 @@ class FriendManager:
         self.filename = filename
         self.load_from_file()
 
-    def add_friend(self, friend_name):
+    def add_friend(self, friend_name, logger):
         if friend_name in self.friends:
-            print(f"Error: Friend '{friend_name}' already exists.")
+            logger.log_error(f"Error: Friend {friend_name} already exists")
             return
         self.friends.add(friend_name)
 

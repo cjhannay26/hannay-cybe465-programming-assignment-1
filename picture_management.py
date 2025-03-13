@@ -37,21 +37,25 @@ class PictureManager:
             return
         self.pictures[picture_name]['owner'] = new_owner
 
-    def read_comments(self, picture_name, viewer, logger):
+    def read_comments(self, picture_name, viewer, logger, list_manager):
         if picture_name not in self.pictures:
             print(f"Error: Picture '{picture_name}' does not exist.")
-            return
+            return None
         
         picture = self.pictures[picture_name]
 
         if viewer == picture['owner'] or picture['permissions']['others'][0] == 'r':
             return "\n".join(picture['comments'])
-        else:
-            logger.log_action(f"Friend {viewer} denied read access to {picture_name}")
-            return None
+        
+        if picture['list'] in list_manager.lists and list_manager.friend_in_list(viewer, picture['list']):
+            if picture['permissions']['list'][0] == 'r':
+                return "\n".join(picture['comments'])
+
+        logger.log_action(f"Friend {viewer} denied read access to {picture_name}")
+        return None
 
 
-    def write_comments(self, picture_name, viewer, comment, logger):
+    def write_comments(self, picture_name, viewer, comment, logger, list_manager):
         if picture_name not in self.pictures:
             print(f"Error: Picture '{picture_name}' does not exist.")
             return
@@ -61,9 +65,18 @@ class PictureManager:
         if viewer == picture['owner'] or picture['permissions']['others'][1] == 'w':
             picture['comments'].append(comment)
             return True
-        else:
-            logger.log_action(f"Friend {viewer} denied write access to {picture_name}")
-            return False
+        
+        if picture['list'] != 'nil' and picture['permissions']['list'][1] == 'w':
+            if list_manager.friend_in_list(viewer, picture['list']):
+                picture['comments'].append(comment)
+                return True
+
+        if picture['permissions']['others'][1] == 'w':
+            picture['comments'].append(comment)
+            return True
+        
+        logger.log_action(f"Friend {viewer} denied write access to {picture_name}")
+        return False
 
     def load_from_file(self):
         try:
@@ -81,4 +94,4 @@ class PictureManager:
     def save_to_file(self):
         with open("pictures.txt", 'a') as f:
             for pic, data in self.pictures.items():
-                f.write(f"{pic} {data['owner']} {data['list']} {data['permissions']['owner']} {data['permissions']['list']} {data['permissions']['others']}\n")
+                f.write(f"{pic}: {data['owner']} {data['list']} {data['permissions']['owner']} {data['permissions']['list']} {data['permissions']['others']}\n")

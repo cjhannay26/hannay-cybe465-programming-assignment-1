@@ -32,3 +32,4 @@ viewby tom
 writecomments file1.txt Text from Tom in file1
 readcomments file1.txt
 logout
+end

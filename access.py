@@ -60,7 +60,7 @@ class MyFacebook:
     def friend_add(self, friend_name):
         if self.profile_owner is None:
             self.profile_owner = friend_name
-        self.friends_manager.add_friend(friend_name)
+        self.friends_manager.add_friend(friend_name, self.logger)
         self.logger.log_action(f"Friend {friend_name} added")
 
     def view_by(self, friend_name):
@@ -70,7 +70,7 @@ class MyFacebook:
             return
         
         if not self.friends_manager.is_friend(friend_name):
-            self.logger.log_action(f"Friend {friend_name} not found")
+            self.logger.log_action(f"Login failed: invalid friend name")
             return
         
         self.current_viewer = friend_name
@@ -84,7 +84,7 @@ class MyFacebook:
         self.current_viewer = None
 
     def list_add(self, list_name):
-        self.list_manager.add_list(list_name)
+        self.list_manager.add_list(list_name, self.logger)
         self.logger.log_action(f"List {list_name} added")
 
     def friend_list(self, friend_name, list_name):
@@ -112,12 +112,12 @@ class MyFacebook:
         self.logger.log_action(f"Owner of {picture_name} changed to {new_owner}")
 
     def read_comments(self, picture_name):
-        comment = self.picture_manager.read_comments(picture_name, self.current_viewer, self.logger)
+        comment = self.picture_manager.read_comments(picture_name, self.current_viewer, self.logger, self.list_manager)
         if comment is not None:
             self.logger.log_action(f"Friend {self.current_viewer} reads {picture_name} as:\n{comment}")
 
     def write_comments(self, picture_name, comment_text):
-        success = self.picture_manager.write_comments(picture_name, self.current_viewer, comment_text, self.logger)
+        success = self.picture_manager.write_comments(picture_name, self.current_viewer, comment_text, self.logger, self.list_manager)
         if success:
             self.logger.log_action(f"Friend {self.current_viewer} wrote to {picture_name}: {comment_text}")
 

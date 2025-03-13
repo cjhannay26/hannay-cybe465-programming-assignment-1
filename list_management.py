@@ -4,9 +4,9 @@ class ListManager:
         self.filename = filename
         self.load_from_file()
 
-    def add_list(self, list_name):
+    def add_list(self, list_name, logger):
         if list_name in self.lists or list_name == 'nil':
-            print(f"Error: List '{list_name}' already exists or is reserved.")
+            logger.log_error(f"Error: List {list_name} already exists")
             return
         self.lists[list_name] = set()
 
@@ -15,6 +15,9 @@ class ListManager:
             print(f"Error: List '{list_name}' does not exist.")
             return
         self.lists[list_name].add(friend_name)
+
+    def friend_in_list(self, friend_name, list_name):
+        return list_name in self.lists and friend_name in self.lists[list_name]
 
     def load_from_file(self):
         try:
@@ -30,4 +33,4 @@ class ListManager:
     def save_to_file(self):
         with open("lists.txt", 'w') as f:
             for list_name, members in self.lists.items():
-                f.write(f"{list_name} {' '.join(members)}\n")
+                f.write(f"{list_name}: {' '.join(members)}\n")
