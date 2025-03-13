@@ -56,13 +56,21 @@ class MyFacebook:
 
         else: self.logger.log_error(f"Invalid command: {command}")
 
-    # Command handlers
     def friend_add(self, friend_name):
+        if self.current_viewer != self.profile_owner:
+            self.logger.log_action(f"Error: only {self.profile_owner} may issue friendadd command")
+            return
+        
         if self.profile_owner is None:
             self.profile_owner = friend_name
-        self.friends_manager.add_friend(friend_name, self.logger)
-        self.logger.log_action(f"Friend {friend_name} added")
 
+        if friend_name in self.friends_manager.friends:
+            self.logger.log_error(f"Error: Friend {friend_name} already exists")
+            return
+
+        self.friends_manager.add_friend(friend_name)
+        self.logger.log_action(f"Friend {friend_name} added")
+        
     def view_by(self, friend_name):
         # Handle viewing by friend
         if self.current_viewer is not None:
@@ -84,7 +92,15 @@ class MyFacebook:
         self.current_viewer = None
 
     def list_add(self, list_name):
-        self.list_manager.add_list(list_name, self.logger)
+        if self.current_viewer != self.profile_owner:
+            self.logger.log_action(f"Error: only {self.profile_owner} may issue listadd command")
+            return
+        
+        if list_name in self.list_manager.lists or list_name == 'nil':
+            self.logger.log_action(f"Error: List {list_name} already exists")
+            return
+        
+        self.list_manager.add_list(list_name)
         self.logger.log_action(f"List {list_name} added")
 
     def friend_list(self, friend_name, list_name):
@@ -94,20 +110,40 @@ class MyFacebook:
     def post_picture(self, picture_name):
         if not self.current_viewer:
             return
-        
+        if picture_name in self.picture_manager.pictures:
+            self.logger.log_action(f"Error: picture {picture_name} already exists")
+            return
         self.picture_manager.add_picture(picture_name, self.current_viewer)
         self.logger.log_action(f"Picture {picture_name} with owner {self.current_viewer} and default permissions created")
 
     def change_list(self, picture_name, list_name):
+        if not self.list_manager.friend_in_list(self.current_viewer, list_name) and self.current_viewer != self.profile_owner:
+            self.logger.log_action(f"Error with chlist: Friend {self.current_viewer} is not a member of list {list_name}")
+            return
+        
+        if picture_name not in self.picture_manager.pictures:
+            self.logger.log_action(f"Error with chmod: picture {picture_name} not found")
+            return
+        
+        if list_name not in self.list_manager.lists:
+            self.logger.log_action(f"Error with chlist: list {list_name} not found")
+            return
+        
         self.picture_manager.change_list(picture_name, list_name)
         self.logger.log_action(f"List for {picture_name} set to {list_name} by {self.current_viewer}")
 
     def change_permissions(self, picture_name, permissions):
+        if picture_name not in self.picture_manager.pictures:
+            self.logger.log_action(f"Error with chmod: picture {picture_name} not found")
+            return
         self.picture_manager.change_permissions(picture_name, permissions)
         owner, list, others = permissions[:3]
         self.logger.log_action(f"Permissions for {picture_name} set to {owner} {list} {others} by {self.current_viewer}")
 
     def change_owner(self, picture_name, new_owner):
+        if picture_name not in self.picture_manager.pictures:
+            self.logger.log_action(f"Error with chown: picture {picture_name} not found")
+            return
         self.picture_manager.change_owner(picture_name, new_owner)
         self.logger.log_action(f"Owner of {picture_name} changed to {new_owner}")
 

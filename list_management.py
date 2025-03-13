@@ -4,10 +4,7 @@ class ListManager:
         self.filename = filename
         self.load_from_file()
 
-    def add_list(self, list_name, logger):
-        if list_name in self.lists or list_name == 'nil':
-            logger.log_error(f"Error: List {list_name} already exists")
-            return
+    def add_list(self, list_name):
         self.lists[list_name] = set()
 
     def add_friend_to_list(self, friend_name, list_name):
