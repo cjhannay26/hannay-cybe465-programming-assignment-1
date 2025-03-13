@@ -57,62 +57,84 @@ class MyFacebook:
         else: self.logger.log_error(f"Invalid command: {command}")
 
     def friend_add(self, friend_name):
+        # Check whether the current viewer is the profile owner
         if self.current_viewer != self.profile_owner:
             self.logger.log_action(f"Error: only {self.profile_owner} may issue friendadd command")
             return
         
+        # If there is no profile owner, set it to the first added friend
         if self.profile_owner is None:
             self.profile_owner = friend_name
 
+        # Check to see if the friend already exists
         if friend_name in self.friends_manager.friends:
             self.logger.log_error(f"Error: Friend {friend_name} already exists")
             return
 
+        # Add the friend and log the action
         self.friends_manager.add_friend(friend_name)
         self.logger.log_action(f"Friend {friend_name} added")
         
     def view_by(self, friend_name):
-        # Handle viewing by friend
+        # Check if there is already someone viewing profile, prevent simultaneous login
         if self.current_viewer is not None:
             self.logger.log_action("Login failed: simultaneous login not permitted")
             return
         
+        # Check if the friend has been added
         if not self.friends_manager.is_friend(friend_name):
             self.logger.log_action(f"Login failed: invalid friend name")
             return
         
+        # Set the current viewer and log the action
         self.current_viewer = friend_name
         self.logger.log_action(f"Friend {friend_name} views the profile")
 
     def logout(self):
+        # If no one is viewing the profile, log an error
         if not self.current_viewer:
-            print("Error: No one is currently viewing the profile.")
+            self.logger.log_action("Error: no one is currently viewing profile")
             return
+        
+        # Log the friend out (no viewer) and log the action
         self.logger.log_action(f"Friend {self.current_viewer} logged out")
         self.current_viewer = None
 
     def list_add(self, list_name):
+        # Check whether the current viewer is the profile owner
         if self.current_viewer != self.profile_owner:
             self.logger.log_action(f"Error: only {self.profile_owner} may issue listadd command")
             return
         
+        # Check to see if the list already exists (or it is 'nil')
         if list_name in self.list_manager.lists or list_name == 'nil':
             self.logger.log_action(f"Error: List {list_name} already exists")
             return
         
+        # Add the list and log the action
         self.list_manager.add_list(list_name)
         self.logger.log_action(f"List {list_name} added")
 
     def friend_list(self, friend_name, list_name):
+        # Check whether the current viewer is the profile owner
+        if self.current_viewer != self.profile_owner:
+            self.logger.log_action(f"Error: only {self.profile_owner} may issue friendlist command")
+            return
+        
+        # Add the friend to the list and log the action
         self.list_manager.add_friend_to_list(friend_name, list_name)
         self.logger.log_action(f"Friend {friend_name} added to list {list_name}")
 
     def post_picture(self, picture_name):
         if not self.current_viewer:
             return
+        
+        # Check to see if the picture already exists
         if picture_name in self.picture_manager.pictures:
             self.logger.log_action(f"Error: picture {picture_name} already exists")
             return
+        
+        # Post the picutre and log the action (including owner and default permissions)
         self.picture_manager.add_picture(picture_name, self.current_viewer)
         self.logger.log_action(f"Picture {picture_name} with owner {self.current_viewer} and default permissions created")
 
@@ -133,17 +155,21 @@ class MyFacebook:
         self.logger.log_action(f"List for {picture_name} set to {list_name} by {self.current_viewer}")
 
     def change_permissions(self, picture_name, permissions):
+        # Check to see if the picture exists
         if picture_name not in self.picture_manager.pictures:
             self.logger.log_action(f"Error with chmod: picture {picture_name} not found")
             return
+        
         self.picture_manager.change_permissions(picture_name, permissions)
         owner, list, others = permissions[:3]
         self.logger.log_action(f"Permissions for {picture_name} set to {owner} {list} {others} by {self.current_viewer}")
 
     def change_owner(self, picture_name, new_owner):
+        # Check to see if the picture exists
         if picture_name not in self.picture_manager.pictures:
             self.logger.log_action(f"Error with chown: picture {picture_name} not found")
             return
+        
         self.picture_manager.change_owner(picture_name, new_owner)
         self.logger.log_action(f"Owner of {picture_name} changed to {new_owner}")
 
@@ -162,6 +188,8 @@ class MyFacebook:
         self.friends_manager.save_to_file()
         self.list_manager.save_to_file()
         self.picture_manager.save_to_file()
+
+        # Terminate the program
         sys.exit(0)
 
 if __name__ == "__main__":
