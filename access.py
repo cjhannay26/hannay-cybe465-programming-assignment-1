@@ -27,9 +27,13 @@ class MyFacebook:
             self.logger.log_error(f"Unexpected error: {e}")
 
     def execute_command(self, command):
+        # Split each instruction/command into parts based on the space between command and arugments
         parts = command.split()
+
+        # Set the actual instruction/command to be the first part
         instruction = parts[0]
 
+        # Perform several checks to see which instruction should be executed
         if instruction == "friendadd": self.friend_add(parts[1])
 
         elif instruction == "viewby": self.view_by(parts[1])
