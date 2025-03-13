@@ -126,7 +126,6 @@ class MyFacebook:
         self.friends_manager.save_to_file()
         self.list_manager.save_to_file()
         self.picture_manager.save_to_file()
-        self.logger.log_action("End of commands. Data saved.")
         sys.exit(0)
 
 if __name__ == "__main__":
