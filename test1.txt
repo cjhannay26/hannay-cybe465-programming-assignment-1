@@ -1,0 +1,2 @@
+friendadd root
+viewby root
