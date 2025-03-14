@@ -186,10 +186,13 @@ class MyFacebook:
             self.logger.log_action(f"Error with readcomments: picture {picture_name} not found")
             return
         
-        comment = self.picture_manager.read_comments(picture_name, self.current_viewer, self.logger, self.list_manager)
+        comment = self.picture_manager.read_comments(picture_name, self.current_viewer, self.list_manager)
 
         if comment is not None:
             self.logger.log_action(f"Friend {self.current_viewer} reads {picture_name} as:\n{comment}")
+        else:
+            self.logger.log_action(f"Friend {self.current_viewer} denied read access to {picture_name}")
+
 
     def write_comments(self, picture_name, comment_text):
         # Check to see if the picture exists
@@ -197,10 +200,12 @@ class MyFacebook:
             self.logger.log_action(f"Error with writecomments: picture {picture_name} not found")
             return
         
-        success = self.picture_manager.write_comments(picture_name, self.current_viewer, comment_text, self.logger, self.list_manager)
+        success = self.picture_manager.write_comments(picture_name, self.current_viewer, comment_text, self.list_manager)
         
         if success:
             self.logger.log_action(f"Friend {self.current_viewer} wrote to {picture_name}: {comment_text}")
+        else:
+            self.logger.log_action(f"Friend {self.current_viewer} denied write access to {picture_name}")
 
     def end(self):
         # Writing all data back to files

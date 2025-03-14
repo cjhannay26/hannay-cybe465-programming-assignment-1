@@ -30,11 +30,7 @@ class PictureManager:
         self.pictures[picture_name]['owner'] = new_owner
 
     # Read in any comment(s) that have been written to a picture
-    def read_comments(self, picture_name, viewer, logger, list_manager):
-        if picture_name not in self.pictures:
-            print(f"Error: Picture '{picture_name}' does not exist.")
-            return None
-        
+    def read_comments(self, picture_name, viewer, list_manager):
         picture = self.pictures[picture_name]
 
         if viewer == picture['owner'] or picture['permissions']['others'][0] == 'r':
@@ -44,16 +40,10 @@ class PictureManager:
             if picture['permissions']['list'][0] == 'r':
                 return "\n".join(picture['comments'])
 
-        logger.log_action(f"Friend {viewer} denied read access to {picture_name}")
         return None
-
 
     # Write new comment(s) to the picture
     def write_comments(self, picture_name, viewer, comment, logger, list_manager):
-        if picture_name not in self.pictures:
-            print(f"Error: Picture '{picture_name}' does not exist.")
-            return
-        
         picture = self.pictures[picture_name]
         
         if viewer == picture['owner'] or picture['permissions']['others'][1] == 'w':
@@ -69,7 +59,6 @@ class PictureManager:
             picture['comments'].append(comment)
             return True
         
-        logger.log_action(f"Friend {viewer} denied write access to {picture_name}")
         return False
 
     def load_from_file(self):
