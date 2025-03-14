@@ -21,10 +21,10 @@ class MyFacebook:
                     self.execute_command(command.strip())
 
         except FileNotFoundError:
-            self.logger.log_error(f"File {filename} not found")
+            self.logger.log_action(f"File {filename} not found")
 
         except Exception as e:
-            self.logger.log_error(f"Unexpected error: {e}")
+            self.logger.log_action(f"Unexpected error: {e}")
 
     def execute_command(self, command):
         # Split each instruction/command into parts based on the space between command and arugments
@@ -58,7 +58,7 @@ class MyFacebook:
         
         elif instruction == "end": self.end()
 
-        else: self.logger.log_error(f"Invalid command: {command}")
+        else: self.logger.log_action(f"Invalid command: {command}")
 
     def friend_add(self, friend_name):
         # Check whether the current viewer is the profile owner
@@ -72,7 +72,7 @@ class MyFacebook:
 
         # Check to see if the friend already exists
         if friend_name in self.friends_manager.friends:
-            self.logger.log_error(f"Error: Friend {friend_name} already exists")
+            self.logger.log_action(f"Error: Friend {friend_name} already exists")
             return
 
         # Add the friend and log the action
@@ -143,14 +143,17 @@ class MyFacebook:
         self.logger.log_action(f"Picture {picture_name} with owner {self.current_viewer} and default permissions created")
 
     def change_list(self, picture_name, list_name):
+        # Check to see if the friend is in the list and if they are the profile owner
         if not self.list_manager.friend_in_list(self.current_viewer, list_name) and self.current_viewer != self.profile_owner:
             self.logger.log_action(f"Error with chlist: Friend {self.current_viewer} is not a member of list {list_name}")
             return
         
+        # Check to see if the picture exists
         if picture_name not in self.picture_manager.pictures:
-            self.logger.log_action(f"Error with chmod: picture {picture_name} not found")
+            self.logger.log_action(f"Error with chlist: picture {picture_name} not found")
             return
         
+        # Check to see if the list exists
         if list_name not in self.list_manager.lists:
             self.logger.log_action(f"Error with chlist: list {list_name} not found")
             return
@@ -178,12 +181,24 @@ class MyFacebook:
         self.logger.log_action(f"Owner of {picture_name} changed to {new_owner}")
 
     def read_comments(self, picture_name):
+        # Check to see if the picture exists
+        if picture_name not in self.picture_manager.pictures:
+            self.logger.log_action(f"Error with readcomments: picture {picture_name} not found")
+            return
+        
         comment = self.picture_manager.read_comments(picture_name, self.current_viewer, self.logger, self.list_manager)
+
         if comment is not None:
             self.logger.log_action(f"Friend {self.current_viewer} reads {picture_name} as:\n{comment}")
 
     def write_comments(self, picture_name, comment_text):
+        # Check to see if the picture exists
+        if picture_name not in self.picture_manager.pictures:
+            self.logger.log_action(f"Error with writecomments: picture {picture_name} not found")
+            return
+        
         success = self.picture_manager.write_comments(picture_name, self.current_viewer, comment_text, self.logger, self.list_manager)
+        
         if success:
             self.logger.log_action(f"Friend {self.current_viewer} wrote to {picture_name}: {comment_text}")
 
@@ -197,9 +212,14 @@ class MyFacebook:
         sys.exit(0)
 
 if __name__ == "__main__":
+    # Check to see if script is being run properly and if the correct number of arguments are provided
     if len(sys.argv) != 2:
+        # Print usage instructions if the number of arguments is not correct
         print("Usage: python access.py <commands_file>")
         sys.exit(1)
 
+    # Create an instance of the MyFacebook class
     facebook = MyFacebook()
+
+    # Run the instructions/commands by passing the provided command file as an argument
     facebook.run(sys.argv[1])
