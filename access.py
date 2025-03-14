@@ -162,6 +162,11 @@ class MyFacebook:
         self.logger.log_action(f"List for {picture_name} set to {list_name} by {self.current_viewer}")
 
     def change_permissions(self, picture_name, permissions):
+        # If no one is viewing the profile, log an error
+        if not self.current_viewer:
+            self.logger.log_action("Error with chmod: no one is currently viewing profile")
+            return
+        
         # Check to see if the picture exists
         if picture_name not in self.picture_manager.pictures:
             self.logger.log_action(f"Error with chmod: picture {picture_name} not found")
@@ -172,6 +177,11 @@ class MyFacebook:
         self.logger.log_action(f"Permissions for {picture_name} set to {owner} {list} {others} by {self.current_viewer}")
 
     def change_owner(self, picture_name, new_owner):
+        # If no one is viewing the profile, log an error
+        if not self.current_viewer:
+            self.logger.log_action("Error with chown: no one is currently viewing profile")
+            return
+        
         # Check to see if the picture exists
         if picture_name not in self.picture_manager.pictures:
             self.logger.log_action(f"Error with chown: picture {picture_name} not found")
@@ -181,6 +191,11 @@ class MyFacebook:
         self.logger.log_action(f"Owner of {picture_name} changed to {new_owner}")
 
     def read_comments(self, picture_name):
+        # If no one is viewing the profile, log an error
+        if not self.current_viewer:
+            self.logger.log_action("Error with readcomments: no one is currently viewing profile")
+            return
+        
         # Check to see if the picture exists
         if picture_name not in self.picture_manager.pictures:
             self.logger.log_action(f"Error with readcomments: picture {picture_name} not found")
@@ -195,6 +210,11 @@ class MyFacebook:
 
 
     def write_comments(self, picture_name, comment_text):
+        # If no one is viewing the profile, log an error
+        if not self.current_viewer:
+            self.logger.log_action("Error with readcomments: no one is currently viewing profile")
+            return
+        
         # Check to see if the picture exists
         if picture_name not in self.picture_manager.pictures:
             self.logger.log_action(f"Error with writecomments: picture {picture_name} not found")

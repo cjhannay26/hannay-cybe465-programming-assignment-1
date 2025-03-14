@@ -33,20 +33,23 @@ class PictureManager:
     def read_comments(self, picture_name, viewer, list_manager):
         picture = self.pictures[picture_name]
 
-        if viewer == picture['owner'] or picture['permissions']['others'][0] == 'r':
+        if viewer == picture['owner'] and picture['permissions']['owner'][0] == 'r':
             return "\n".join(picture['comments'])
         
-        if picture['list'] in list_manager.lists and list_manager.friend_in_list(viewer, picture['list']):
-            if picture['permissions']['list'][0] == 'r':
+        if picture['list'] in list_manager.lists and picture['permissions']['list'][0] == 'r':
+            if list_manager.friend_in_list(viewer, picture['list']):
                 return "\n".join(picture['comments'])
+            
+        if picture['permissions']['others'][0] == 'r':
+            return "\n".join(picture['comments'])
 
         return None
 
     # Write new comment(s) to the picture
-    def write_comments(self, picture_name, viewer, comment, logger, list_manager):
+    def write_comments(self, picture_name, viewer, comment, list_manager):
         picture = self.pictures[picture_name]
         
-        if viewer == picture['owner'] or picture['permissions']['others'][1] == 'w':
+        if viewer == picture['owner'] and picture['permissions']['owner'][1] == 'w':
             picture['comments'].append(comment)
             return True
         
