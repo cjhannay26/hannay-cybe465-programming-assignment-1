@@ -4,10 +4,8 @@ class PictureManager:
         self.filename = filename
         self.load_from_file()
 
+    # Add/post a picture with the default list ('nil') and default permissions
     def add_picture(self, picture_name, owner):
-        if picture_name in self.pictures:
-            print(f"Error: Picture '{picture_name}' already exists.")
-            return
         self.pictures[picture_name] = {
             'owner': owner,
             'list': 'nil',
@@ -15,28 +13,23 @@ class PictureManager:
             'comments': []
         }
 
+    # Change the list for a given picture
     def change_list(self, picture_name, list_name):
-        if picture_name not in self.pictures:
-            print(f"Error: Picture '{picture_name}' does not exist.")
-            return
         self.pictures[picture_name]['list'] = list_name
 
+    # Change the read/write permissions for owner, list, and others for a given picture
     def change_permissions(self, picture_name, permissions):
-        if picture_name not in self.pictures:
-            print(f"Error: Picture '{picture_name}' does not exist.")
-            return
         self.pictures[picture_name]['permissions'] = {
             'owner': permissions[0],
             'list': permissions[1],
             'others': permissions[2]
         }
 
+    # Change the owner of a given picture
     def change_owner(self, picture_name, new_owner):
-        if picture_name not in self.pictures:
-            print(f"Error: Picture '{picture_name}' does not exist.")
-            return
         self.pictures[picture_name]['owner'] = new_owner
 
+    # Read in any comment(s) that have been written to a picture
     def read_comments(self, picture_name, viewer, logger, list_manager):
         if picture_name not in self.pictures:
             print(f"Error: Picture '{picture_name}' does not exist.")
@@ -55,6 +48,7 @@ class PictureManager:
         return None
 
 
+    # Write new comment(s) to the picture
     def write_comments(self, picture_name, viewer, comment, logger, list_manager):
         if picture_name not in self.pictures:
             print(f"Error: Picture '{picture_name}' does not exist.")
@@ -89,8 +83,9 @@ class PictureManager:
                     permissions = {'owner': parts[3], 'list': parts[4], 'others': parts[5]}
                     self.pictures[pic_name] = {'owner': owner, 'list': list_name, 'permissions': permissions, 'comments': []}
         except FileNotFoundError:
-            print(f"Warning: {self.filename} not found. Starting with an empty picture list.")
+            print(f"Warning: {self.filename} not found. Starting with empty file {self.filename}")
 
+    # Save any posted/created pictures to pictures.txt
     def save_to_file(self):
         with open("pictures.txt", 'a') as f:
             for pic, data in self.pictures.items():

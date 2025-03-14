@@ -7,6 +7,7 @@ class FriendManager:
     def add_friend(self, friend_name):
         self.friends.add(friend_name)
        
+    # Return whether a someone is a friend
     def is_friend(self, friend_name):
         return friend_name in self.friends
     
@@ -16,8 +17,9 @@ class FriendManager:
                 for line in file:
                     self.friends.add(line.strip())
         except FileNotFoundError:
-            print(f"Warning: {self.filename} not found. Starting with an empty friend list.")
+            print(f"Warning: {self.filename} not found. Starting with empty file {self.filename}")
 
+    # Save any added friends to friends.txt
     def save_to_file(self):
         with open("friends.txt", 'a') as f:
             for friend in self.friends:
