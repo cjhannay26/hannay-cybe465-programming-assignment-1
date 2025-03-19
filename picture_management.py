@@ -36,8 +36,8 @@ class PictureManager:
         if viewer == picture['owner'] and picture['permissions']['owner'][0] == 'r':
             return "\n".join(picture['comments'])
         
-        if picture['list'] in list_manager.lists and picture['permissions']['list'][0] == 'r':
-            if list_manager.friend_in_list(viewer, picture['list']):
+        if picture['list'] != 'nil' and list_manager.friend_in_list(viewer, picture['list']):
+            if picture['permissions']['list'][0] == 'r':
                 return "\n".join(picture['comments'])
             
         if picture['permissions']['others'][0] == 'r':
@@ -53,8 +53,8 @@ class PictureManager:
             picture['comments'].append(comment)
             return True
         
-        if picture['list'] != 'nil' and picture['permissions']['list'][1] == 'w':
-            if list_manager.friend_in_list(viewer, picture['list']):
+        if picture['list'] != 'nil' and list_manager.friend_in_list(viewer, picture['list']): 
+            if picture['permissions']['list'][1] == 'w':
                 picture['comments'].append(comment)
                 return True
 
