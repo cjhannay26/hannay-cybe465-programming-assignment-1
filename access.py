@@ -80,6 +80,11 @@ class MyFacebook:
         self.logger.log_action(f"Friend {friend_name} added")
         
     def view_by(self, friend_name):
+        # Check to make sure the profile owner is set
+        if self.profile_owner is None:
+            self.logger.log_action("Error with viewby: no profile owner exists")
+            return
+
         # Check if there is already someone viewing profile, prevent simultaneous login
         if self.current_viewer is not None:
             self.logger.log_action("Login failed: simultaneous login not permitted")
@@ -130,7 +135,15 @@ class MyFacebook:
         self.logger.log_action(f"Friend {friend_name} added to list {list_name}")
 
     def post_picture(self, picture_name):
+        # If no one is viewing the profile, log an error
         if not self.current_viewer:
+            self.logger.log_action("Error: no one is currently viewing profile")
+            return
+        
+        reserved_names = {"audit.txt", "friends.txt", "lists.txt", "pictures.txt"}
+
+        if picture_name in reserved_names:
+            self.logger.log_action(f"Error: invalid filename {picture_name}")
             return
         
         # Check to see if the picture already exists
@@ -212,7 +225,7 @@ class MyFacebook:
     def write_comments(self, picture_name, comment_text):
         # If no one is viewing the profile, log an error
         if not self.current_viewer:
-            self.logger.log_action("Error with readcomments: no one is currently viewing profile")
+            self.logger.log_action("Error with writecomments: no one is currently viewing profile")
             return
         
         # Check to see if the picture exists

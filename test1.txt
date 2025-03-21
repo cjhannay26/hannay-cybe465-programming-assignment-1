@@ -1,2 +1,10 @@
 friendadd root
 viewby root
+friendadd cameron
+friendadd tommy
+viewby cameron
+postpicture freestyle.txt
+writecomments backstroke.txt 100 yard backstroke
+writecomments freestyle.txt 100 yard freestyle
+logout
+readcomments
