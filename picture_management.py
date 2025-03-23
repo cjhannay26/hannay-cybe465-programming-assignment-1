@@ -10,8 +10,10 @@ class PictureManager:
             'owner': owner,
             'list': 'nil',
             'permissions': {'owner': 'rw', 'list': '--', 'others': '--'},
-            'comments': []
         }
+
+        with open(picture_name, 'w') as picture:
+            picture.write(f"{picture_name}\n")
 
     # Change the list for a given picture
     def change_list(self, picture_name, list_name):
@@ -33,15 +35,21 @@ class PictureManager:
     def read_comments(self, picture_name, viewer, list_manager):
         picture = self.pictures[picture_name]
 
+        # Check owner permissions to determine whether to read comment from picture/file
         if viewer == picture['owner'] and picture['permissions']['owner'][0] == 'r':
-            return "\n".join(picture['comments'])
-        
+            with open(picture_name, 'r') as picture:
+                return picture.read().strip()
+                
+        # Check list permissions to determine whether to read comment from picture/file
         if picture['list'] != 'nil' and list_manager.friend_in_list(viewer, picture['list']):
             if picture['permissions']['list'][0] == 'r':
-                return "\n".join(picture['comments'])
-            
+                with open(picture_name, 'r') as picture:
+                    return picture.read().strip()
+
+        # Check others permissions to determine whether to read comment from picture/file
         if picture['permissions']['others'][0] == 'r':
-            return "\n".join(picture['comments'])
+            with open(picture_name, 'r') as picture:
+                return picture.read().strip()
 
         return None
 
@@ -49,19 +57,26 @@ class PictureManager:
     def write_comments(self, picture_name, viewer, comment, list_manager):
         picture = self.pictures[picture_name]
         
+        # Check owner permissions to determine whether to write comment to picture/file
         if viewer == picture['owner'] and picture['permissions']['owner'][1] == 'w':
-            picture['comments'].append(comment)
+            with open(picture_name, 'a') as picture:
+                picture.write(comment + "\n")
             return True
         
+        # Check lists permissions to determine whether to write comment to picture/file
         if picture['list'] != 'nil' and list_manager.friend_in_list(viewer, picture['list']): 
             if picture['permissions']['list'][1] == 'w':
-                picture['comments'].append(comment)
+                with open(picture_name, 'a') as picture:
+                    picture.write(comment + "\n")
                 return True
 
+        # Check others permissions to determine whether to write comment to picture/file
         if picture['permissions']['others'][1] == 'w':
-            picture['comments'].append(comment)
+            with open(picture_name, 'a') as picture:
+                picture.write(comment + "\n")
             return True
         
+        # Indicate that permission to write is denied
         return False
 
     def load_from_file(self):
@@ -73,7 +88,7 @@ class PictureManager:
                     owner = parts[1]
                     list_name = parts[2]
                     permissions = {'owner': parts[3], 'list': parts[4], 'others': parts[5]}
-                    self.pictures[pic_name] = {'owner': owner, 'list': list_name, 'permissions': permissions, 'comments': []}
+                    self.pictures[pic_name] = {'owner': owner, 'list': list_name, 'permissions': permissions}
         except FileNotFoundError:
             print(f"Warning: {self.filename} not found. Starting with empty file {self.filename}")
 

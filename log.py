@@ -1,9 +1,10 @@
 class Logger:
-    def __init__(self):
-        # Initialize the log file path to "audit.txt"
-        self.audit_log = "audit.txt"
+    def __init__(self, filename="audit.txt"):
+       self.filename = filename
+       # Clear audit.txt file each time the program is run
+       open(self.filename, 'w').close()
 
     def log_action(self, action):
         # Log an action (success or error)
-        with open(self.audit_log, 'a') as f:
+        with open(self.filename, 'a') as f:
             f.write(f"{action}\n")
