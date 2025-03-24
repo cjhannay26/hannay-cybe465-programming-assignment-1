@@ -147,6 +147,18 @@ class MyFacebook:
             print(f"Error: only {self.profile_owner} may issue friendlist command")
             return
         
+        # Check to see if the list exists
+        if list_name not in self.list_manager.lists:
+            self.logger.log_action(f"Error with friendlist: list {list_name} not found")
+            print(f"Error with friendlist: list {list_name} not found")
+            return
+        
+        # Check to see if the friend exists
+        if friend_name not in self.friends_manager.friends:
+            self.logger.log_action(f"Error with friendlist: friend {friend_name} not found")
+            print(f"Error with friendlist: friend {friend_name} not found")
+            return
+        
         # Add the friend to the list and log the action
         self.list_manager.add_friend_to_list(friend_name, list_name)
         self.logger.log_action(f"Friend {friend_name} added to list {list_name}")
@@ -223,6 +235,12 @@ class MyFacebook:
         if not self.current_viewer:
             self.logger.log_action("Error with chown: no one is currently viewing profile")
             print("Error with chown: no one is currently viewing profile")
+            return
+        
+        # Check whether the current viewer is the profile owner
+        if self.current_viewer != self.profile_owner:
+            self.logger.log_action(f"Error: only {self.profile_owner} may issue chown command")
+            print(f"Error: only {self.profile_owner} may issue chown command")
             return
         
         # Check to see if the picture exists
