@@ -2,6 +2,10 @@ class ListManager:
     def __init__(self, filename="lists.txt"):
         self.lists = {}
         self.filename = filename
+
+        # Clear lists.txt file each time the program is run
+        open(self.filename, 'w').close()
+
         self.load_from_file()
 
     def add_list(self, list_name):
@@ -30,4 +34,3 @@ class ListManager:
         with open("lists.txt", 'w') as f:
             for list_name, members in self.lists.items():
                 f.write(f"{list_name}: {' '.join(members)}\n")
-            f.close()

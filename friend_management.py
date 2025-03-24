@@ -28,4 +28,3 @@ class FriendManager:
         with open("friends.txt", 'w') as f:
             for friend in self.friends:
                 f.write(friend + "\n")
-        f.close()

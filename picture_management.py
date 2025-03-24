@@ -2,6 +2,10 @@ class PictureManager:
     def __init__(self, filename="pictures.txt"):
         self.pictures = {}
         self.filename = filename
+
+        # Clear pictures.txt file each time the program is run
+        open(self.filename, 'w').close()
+
         self.load_from_file()
 
     # Add/post a picture with the default list ('nil') and default permissions
@@ -94,7 +98,6 @@ class PictureManager:
 
     # Save any posted/created pictures to pictures.txt
     def save_to_file(self):
-        with open("pictures.txt", 'a') as f:
+        with open("pictures.txt", 'w') as f:
             for pic, data in self.pictures.items():
                 f.write(f"{pic}: {data['owner']} {data['list']} {data['permissions']['owner']} {data['permissions']['list']} {data['permissions']['others']}\n")
-            f.close()

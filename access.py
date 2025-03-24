@@ -10,7 +10,7 @@ class MyFacebook:
         self.current_viewer = None
         self.friends_manager = FriendManager("friends.txt")
         self.picture_manager = PictureManager("pictures.txt")
-        self.list_manager = ListManager("list.txt")
+        self.list_manager = ListManager("lists.txt")
         self.logger = Logger()
 
     def run(self, filename):
