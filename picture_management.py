@@ -13,7 +13,7 @@ class PictureManager:
         }
 
         with open(picture_name, 'w') as picture:
-            picture.write(f"{picture_name}\n")
+            picture.write(f"{picture_name.rsplit(".txt", 1)[0]}\n")
 
     # Change the list for a given picture
     def change_list(self, picture_name, list_name):
