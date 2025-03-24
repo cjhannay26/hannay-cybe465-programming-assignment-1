@@ -97,3 +97,4 @@ class PictureManager:
         with open("pictures.txt", 'a') as f:
             for pic, data in self.pictures.items():
                 f.write(f"{pic}: {data['owner']} {data['list']} {data['permissions']['owner']} {data['permissions']['list']} {data['permissions']['others']}\n")
+            f.close()

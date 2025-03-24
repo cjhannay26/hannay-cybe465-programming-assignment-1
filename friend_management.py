@@ -5,7 +5,7 @@ class FriendManager:
 
         # Clear friends.txt file each time the program is run
         open(self.filename, 'w').close()
-        
+
         self.load_from_file()
 
     def add_friend(self, friend_name):
@@ -28,3 +28,4 @@ class FriendManager:
         with open("friends.txt", 'w') as f:
             for friend in self.friends:
                 f.write(friend + "\n")
+        f.close()

@@ -30,3 +30,4 @@ class ListManager:
         with open("lists.txt", 'w') as f:
             for list_name, members in self.lists.items():
                 f.write(f"{list_name}: {' '.join(members)}\n")
+            f.close()
