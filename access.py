@@ -92,15 +92,21 @@ class MyFacebook:
             self.logger.log_action("Error with viewby: no profile owner exists")
             print("Error with viewby: no profile owner exists")
             return
+        
+        # Check to make sure the profile owner views first
+        # if self.current_viewer is None and friend_name != self.profile_owner:
+            # self.logger.log_action(f"Error with viewby: profile owner must view profile first")
+            # print(f"Error with viewby: profile owner must view profile first")
+            # return
 
-        # Check if there is already someone viewing profile, prevent simultaneous login
+        # Check if there is already someone viewing profile to prevent simultaneous login
         if self.current_viewer is not None:
             self.logger.log_action("Login failed: simultaneous login not permitted")
             print("Login failed: simultaneous login not permitted")
             return
         
         # Check if the friend has been added
-        if not self.friends_manager.is_friend(friend_name):
+        if friend_name not in self.friends_manager.friends:
             self.logger.log_action(f"Login failed: invalid friend name")
             print(f"Login failed: invalid friend name")
             return

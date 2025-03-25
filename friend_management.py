@@ -10,10 +10,6 @@ class FriendManager:
 
     def add_friend(self, friend_name):
         self.friends.append(friend_name)
-       
-    # Return whether a someone is a friend
-    def is_friend(self, friend_name):
-        return friend_name in self.friends
     
     def load_from_file(self):
         try:
