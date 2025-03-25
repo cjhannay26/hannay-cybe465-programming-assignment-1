@@ -8,6 +8,10 @@ class MyFacebook:
     def __init__(self):
         self.profile_owner = None
         self.current_viewer = None
+
+        # Flag to keep track whether or not profile owner has viewed the profile
+        self.profile_owner_has_viewed = False
+
         self.friends_manager = FriendManager("friends.txt")
         self.picture_manager = PictureManager("pictures.txt")
         self.list_manager = ListManager("lists.txt")
@@ -87,17 +91,11 @@ class MyFacebook:
         print(f"Friend {friend_name} added")
         
     def view_by(self, friend_name):
-        # Check to make sure the profile owner is set
-        if self.profile_owner is None:
-            self.logger.log_action("Error with viewby: no profile owner exists")
-            print("Error with viewby: no profile owner exists")
-            return
-        
         # Check to make sure the profile owner views first
-        # if self.current_viewer is None and friend_name != self.profile_owner:
-            # self.logger.log_action(f"Error with viewby: profile owner must view profile first")
-            # print(f"Error with viewby: profile owner must view profile first")
-            # return
+        if not self.profile_owner_has_viewed and friend_name != self.profile_owner:
+            self.logger.log_action(f"Error with viewby: profile owner must view profile first")
+            print(f"Error with viewby: profile owner must view profile first")
+            return
 
         # Check if there is already someone viewing profile to prevent simultaneous login
         if self.current_viewer is not None:
@@ -111,6 +109,10 @@ class MyFacebook:
             print(f"Login failed: invalid friend name")
             return
         
+        # Indicate that the profile owner has viewed first/at least once
+        if friend_name == self.profile_owner:
+            self.profile_owner_has_viewed = True
+            
         # Set the current viewer and log the action
         self.current_viewer = friend_name
         self.logger.log_action(f"Friend {friend_name} views the profile")
