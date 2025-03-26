@@ -216,27 +216,6 @@ class MyFacebook:
             print("Error with chlist: no one is currently viewing profile")
             return
         
-        picture_owner = self.picture_manager.pictures[picture_name]['owner']
-
-        # Check to make sure current viewer is profile owner or picture owner to determine if they can change list
-        if self.current_viewer != self.profile_owner and self.current_viewer != picture_owner:
-            self.logger.log_action("Error with chlist: only profile owner or picture owner can change the list")
-            print("Error with chlist: only profile owner or picture owner can change the list")
-            return
-        
-        # Check to see if the friend is in the list and if they are the profile owner
-        if not self.list_manager.friend_in_list(self.current_viewer, list_name) and self.current_viewer != self.profile_owner:
-            self.logger.log_action(f"Error with chlist: Friend {self.current_viewer} is not a member of list {list_name}")
-            print(f"Error with chlist: Friend {self.current_viewer} is not a member of list {list_name}")
-            return
-        
-        # If current viewer is not profile owner, they can only set list to "nil" or a list they belong to
-        if self.current_viewer != self.profile_owner and list_name != "nil":
-            if not self.list_manager.friend_in_list(self.current_viewer, list_name):
-                self.logger.log_action(f"Error with chlish: friend {self.current_viewer} is not a member of list {list_name}")
-                print(f"Error with chlish: friend {self.current_viewer} is not a member of list {list_name}")
-                return
-        
         # Check to see if the picture exists
         if picture_name not in self.picture_manager.pictures:
             self.logger.log_action(f"Error with chlist: picture {picture_name} not found")
@@ -244,11 +223,26 @@ class MyFacebook:
             return
         
         # Check to see if the list exists
-        if list_name not in self.list_manager.lists:
+        if list_name != "nil" and list_name not in self.list_manager.lists:
             self.logger.log_action(f"Error with chlist: list {list_name} not found")
             print(f"Error with chlist: list {list_name} not found")
             return
         
+        picture_owner = self.picture_manager.pictures[picture_name]['owner']
+
+        # Check to make sure current viewer is profile owner or picture owner to determine if they can change list
+        if self.current_viewer != self.profile_owner and self.current_viewer != picture_owner:
+            self.logger.log_action("Error with chlist: only profile owner or picture owner can change the list")
+            print("Error with chlist: only profile owner or picture owner can change the list")
+            return
+         
+        # If current viewer is not profile owner, they can only set list to "nil" or a list they belong to
+        if self.current_viewer != self.profile_owner and list_name != "nil":
+            if not self.list_manager.friend_in_list(self.current_viewer, list_name):
+                self.logger.log_action(f"Error with chlish: friend {self.current_viewer} is not a member of list {list_name}")
+                print(f"Error with chlish: friend {self.current_viewer} is not a member of list {list_name}")
+                return
+       
         self.picture_manager.change_list(picture_name, list_name)
         self.logger.log_action(f"List for {picture_name} set to {list_name} by {self.current_viewer}")
         print(f"List for {picture_name} set to {list_name} by {self.current_viewer}")
@@ -260,6 +254,12 @@ class MyFacebook:
             print("Error with chmod: no one is currently viewing profile")
             return
         
+        # Check to see if the picture exists
+        if picture_name not in self.picture_manager.pictures:
+            self.logger.log_action(f"Error with chmod: picture {picture_name} not found")
+            print(f"Error with chmod: picture {picture_name} not found")
+            return
+        
         picture_owner = self.picture_manager.pictures[picture_name]['owner']
 
         # Check to make sure current viewer is profile owner or picture owner to determine if they can change list
@@ -267,13 +267,7 @@ class MyFacebook:
             self.logger.log_action("Error with chmod: only profile owner or picture owner can change permissions")
             print("Error with chmod: only profile owner or picture owner can change permissions")
             return
-        
-        # Check to see if the picture exists
-        if picture_name not in self.picture_manager.pictures:
-            self.logger.log_action(f"Error with chmod: picture {picture_name} not found")
-            print(f"Error with chmod: picture {picture_name} not found")
-            return
-        
+    
         self.picture_manager.change_permissions(picture_name, permissions)
         owner, list, others = permissions[:3]
         self.logger.log_action(f"Permissions for {picture_name} set to {owner} {list} {others} by {self.current_viewer}")
@@ -354,12 +348,6 @@ class MyFacebook:
             print(f"Friend {self.current_viewer} denied write access to {picture_name}")
 
     def end(self):
-        # If no one is viewing the profile, log an error
-        if not self.current_viewer:
-            self.logger.log_action("Error with end: no one is currently viewing profile")
-            print("Error with end: no one is currently viewing profile")
-            return
-        
         # Writing all data back to files
         self.friends_manager.save_to_file()
         self.list_manager.save_to_file()
