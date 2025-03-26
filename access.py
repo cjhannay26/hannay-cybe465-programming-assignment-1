@@ -131,6 +131,12 @@ class MyFacebook:
         self.current_viewer = None
 
     def list_add(self, list_name):
+        # If no one is viewing the profile, log an error
+        if not self.current_viewer:
+            self.logger.log_action("Error with listadd: no one is currently viewing profile")
+            print("Error with listadd: no one is currently viewing profile")
+            return
+        
         # Check whether the current viewer is the profile owner
         if self.current_viewer != self.profile_owner:
             self.logger.log_action(f"Error: only {self.profile_owner} may issue listadd command")
@@ -149,6 +155,12 @@ class MyFacebook:
         print(f"List {list_name} added")
 
     def friend_list(self, friend_name, list_name):
+        # If no one is viewing the profile, log an error
+        if not self.current_viewer:
+            self.logger.log_action("Error with friendlist: no one is currently viewing profile")
+            print("Error with friendlist: no one is currently viewing profile")
+            return
+        
         # Check whether the current viewer is the profile owner
         if self.current_viewer != self.profile_owner:
             self.logger.log_action(f"Error: only {self.profile_owner} may issue friendlist command")
@@ -210,6 +222,7 @@ class MyFacebook:
         if self.current_viewer != self.profile_owner and self.current_viewer != picture_owner:
             self.logger.log_action("Error with chlist: only profile owner or picture owner can change the list")
             print("Error with chlist: only profile owner or picture owner can change the list")
+            return
         
         # Check to see if the friend is in the list and if they are the profile owner
         if not self.list_manager.friend_in_list(self.current_viewer, list_name) and self.current_viewer != self.profile_owner:
@@ -222,6 +235,7 @@ class MyFacebook:
             if not self.list_manager.friend_in_list(self.current_viewer, list_name):
                 self.logger.log_action(f"Error with chlish: friend {self.current_viewer} is not a member of list {list_name}")
                 print(f"Error with chlish: friend {self.current_viewer} is not a member of list {list_name}")
+                return
         
         # Check to see if the picture exists
         if picture_name not in self.picture_manager.pictures:
@@ -246,6 +260,14 @@ class MyFacebook:
             print("Error with chmod: no one is currently viewing profile")
             return
         
+        picture_owner = self.picture_manager.pictures[picture_name]['owner']
+
+        # Check to make sure current viewer is profile owner or picture owner to determine if they can change list
+        if self.current_viewer != self.profile_owner and self.current_viewer != picture_owner:
+            self.logger.log_action("Error with chmod: only profile owner or picture owner can change permissions")
+            print("Error with chmod: only profile owner or picture owner can change permissions")
+            return
+        
         # Check to see if the picture exists
         if picture_name not in self.picture_manager.pictures:
             self.logger.log_action(f"Error with chmod: picture {picture_name} not found")
@@ -268,6 +290,12 @@ class MyFacebook:
         if self.current_viewer != self.profile_owner:
             self.logger.log_action(f"Error: only {self.profile_owner} may issue chown command")
             print(f"Error: only {self.profile_owner} may issue chown command")
+            return
+        
+        # Check to see if the new owner exists as a friend
+        if new_owner not in self.friends_manager.friends:
+            self.logger.log_action(f"Error with chown: friend {new_owner} not found")
+            print(f"Error with chown: friend {new_owner} not found")
             return
         
         # Check to see if the picture exists
@@ -326,6 +354,12 @@ class MyFacebook:
             print(f"Friend {self.current_viewer} denied write access to {picture_name}")
 
     def end(self):
+        # If no one is viewing the profile, log an error
+        if not self.current_viewer:
+            self.logger.log_action("Error with end: no one is currently viewing profile")
+            print("Error with end: no one is currently viewing profile")
+            return
+        
         # Writing all data back to files
         self.friends_manager.save_to_file()
         self.list_manager.save_to_file()
