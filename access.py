@@ -198,11 +198,30 @@ class MyFacebook:
         print(f"Picture {picture_name} with owner {self.current_viewer} and default permissions created")
 
     def change_list(self, picture_name, list_name):
+        # If no one is viewing the profile, log an error
+        if not self.current_viewer:
+            self.logger.log_action("Error with chlist: no one is currently viewing profile")
+            print("Error with chlist: no one is currently viewing profile")
+            return
+        
+        picture_owner = self.picture_manager.pictures[picture_name]['owner']
+
+        # Check to make sure current viewer is profile owner or picture owner to determine if they can change list
+        if self.current_viewer != self.profile_owner and self.current_viewer != picture_owner:
+            self.logger.log_action("Error with chlist: only profile owner or picture owner can change the list")
+            print("Error with chlist: only profile owner or picture owner can change the list")
+        
         # Check to see if the friend is in the list and if they are the profile owner
         if not self.list_manager.friend_in_list(self.current_viewer, list_name) and self.current_viewer != self.profile_owner:
             self.logger.log_action(f"Error with chlist: Friend {self.current_viewer} is not a member of list {list_name}")
             print(f"Error with chlist: Friend {self.current_viewer} is not a member of list {list_name}")
             return
+        
+        # If current viewer is not profile owner, they can only set list to "nil" or a list they belong to
+        if self.current_viewer != self.profile_owner and list_name != "nil":
+            if not self.list_manager.friend_in_list(self.current_viewer, list_name):
+                self.logger.log_action(f"Error with chlish: friend {self.current_viewer} is not a member of list {list_name}")
+                print(f"Error with chlish: friend {self.current_viewer} is not a member of list {list_name}")
         
         # Check to see if the picture exists
         if picture_name not in self.picture_manager.pictures:
