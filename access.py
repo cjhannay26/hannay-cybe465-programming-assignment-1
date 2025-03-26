@@ -286,16 +286,16 @@ class MyFacebook:
             print(f"Error: only {self.profile_owner} may issue chown command")
             return
         
-        # Check to see if the new owner exists as a friend
-        if new_owner not in self.friends_manager.friends:
-            self.logger.log_action(f"Error with chown: friend {new_owner} not found")
-            print(f"Error with chown: friend {new_owner} not found")
-            return
-        
         # Check to see if the picture exists
         if picture_name not in self.picture_manager.pictures:
             self.logger.log_action(f"Error with chown: picture {picture_name} not found")
             print(f"Error with chown: picture {picture_name} not found")
+            return
+        
+        # Check to see if the new owner exists as a friend
+        if new_owner not in self.friends_manager.friends:
+            self.logger.log_action(f"Error with chown: friend {new_owner} not found")
+            print(f"Error with chown: friend {new_owner} not found")
             return
         
         self.picture_manager.change_owner(picture_name, new_owner)
