@@ -131,12 +131,6 @@ class MyFacebook:
         self.current_viewer = None
 
     def list_add(self, list_name):
-        # If no one is viewing the profile, log an error
-        if not self.current_viewer:
-            self.logger.log_action("Error with listadd: no one is currently viewing profile")
-            print("Error with listadd: no one is currently viewing profile")
-            return
-        
         # Check whether the current viewer is the profile owner
         if self.current_viewer != self.profile_owner:
             self.logger.log_action(f"Error: only {self.profile_owner} may issue listadd command")
@@ -155,12 +149,6 @@ class MyFacebook:
         print(f"List {list_name} added")
 
     def friend_list(self, friend_name, list_name):
-        # If no one is viewing the profile, log an error
-        if not self.current_viewer:
-            self.logger.log_action("Error with friendlist: no one is currently viewing profile")
-            print("Error with friendlist: no one is currently viewing profile")
-            return
-        
         # Check whether the current viewer is the profile owner
         if self.current_viewer != self.profile_owner:
             self.logger.log_action(f"Error: only {self.profile_owner} may issue friendlist command")
