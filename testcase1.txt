@@ -2,9 +2,35 @@ friendadd root
 viewby root
 friendadd cameron
 friendadd tommy
-viewby cameron
+listadd swimmers
+friendlist cameron swimmers
 postpicture freestyle.txt
-writecomments backstroke.txt 100 yard backstroke
-writecomments freestyle.txt 100 yard freestyle
+postpicture backstroke.txt
+chlst freestyle.txt swimmers
+chmod freestyle.txt rw r- --  
 logout
-readcomments
+writecomments 500 yard freestyle is the worst!
+viewby cameron
+writecomments freestyle.txt 50 yard freestyle  
+readcomments freestyle.txt 
+writecomments backstroke.txt 100 yard backstroke
+logout
+readcomments freestyle.txt
+viewby tommy
+readcomments freestyle.txt  
+writecomments freestyle.txt 100 yard freestyle  
+chown freestyle.txt cameron 
+logout
+chlst backstroke.txt swimmers
+chmod freestyle.txt rw rw rw
+viewby root
+writecomments backstroke.txt 200 yard backstroke
+writecomments freestyle.txt 200 yard freestyle
+chown butterfly.txt cameron 
+friendlist luke swimmers 
+postpicture freestyle.txt  
+logout
+viewby cameron
+friendadd tommy 
+logout
+end
