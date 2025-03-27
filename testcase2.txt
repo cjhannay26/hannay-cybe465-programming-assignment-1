@@ -1,2 +1,39 @@
 friendadd root
 viewby root
+friendadd jerry
+friendadd katie
+listadd coworkers
+listadd managers
+friendlist jerry coworkers
+friendlist katie managers
+postpicture pictures.txt
+postpicture report.txt
+postpicture summary.txt
+chlst report.txt coworkers  
+chlst summary.txt managers
+chmod report.txt rw -w --  
+chmod summary.txt rw rw --  
+logout
+viewby jerry
+writecomments report.txt 100 customers came into the store
+readcomments report.txt  
+logout
+viewby katie
+readcomments report.txt  
+writecomments report.txt 90 of 100 customers were waited on by Jerry
+readcomments summary.txt  
+writecomments summary.txt Jerry performed well overall  
+logout
+viewby root
+chlst report.txt managers  
+chlst summary.txt directors  
+friendlist val coworkers  
+logout
+viewby katie
+readcomments summary.txt  
+logout
+viewby root
+friendremove jerry  
+readcomments report.txt
+logout
+end
