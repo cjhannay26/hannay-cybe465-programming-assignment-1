@@ -1,5 +1,5 @@
-friendadd root
-viewby root
+friendadd admin
+viewby admin
 friendadd jerry
 friendadd katie
 listadd coworkers
@@ -24,7 +24,7 @@ writecomments report.txt 90 of 100 customers were waited on by Jerry
 readcomments summary.txt  
 writecomments summary.txt Jerry performed well overall  
 logout
-viewby root
+viewby admin
 chlst report.txt managers  
 chlst summary.txt directors  
 friendlist val coworkers  
@@ -32,7 +32,7 @@ logout
 viewby katie
 readcomments summary.txt  
 logout
-viewby root
+viewby admin
 friendremove jerry  
 readcomments report.txt
 logout
