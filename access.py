@@ -6,29 +6,35 @@ from log import Logger
 
 class MyFacebook:
     def __init__(self):
+        # Initialize MyFacebook with a profile owner and current viewer
         self.profile_owner = None
         self.current_viewer = None
 
         # Flag to keep track whether or not profile owner has viewed the profile
         self.profile_owner_has_viewed = False
 
+        # Use the supporting files to manage friends, lists, and pictures as well as logging
         self.friends_manager = FriendManager("friends.txt")
         self.picture_manager = PictureManager("pictures.txt")
         self.list_manager = ListManager("lists.txt")
         self.logger = Logger()
 
     def run(self, filename):
+        # Execute the commands from the specified input file
         try:
             with open(filename, 'r') as file:
                 commands = file.readlines()
                 for command in commands:
+                    # Strip any extra speaces and execute the cleaned up command
                     self.execute_command(command.strip())
 
         except FileNotFoundError:
+            # Log and print an error if the file is not found
             self.logger.log_action(f"File {filename} not found")
             print(f"File {filename} not found")
 
         except Exception as e:
+            # Log and print any unexpected errors that may occur
             self.logger.log_action(f"Unexpected error: {e}")
             print(f"Unexpected error: {e}")
 
@@ -65,6 +71,7 @@ class MyFacebook:
         elif instruction == "end": self.end()
 
         else: 
+            # Log and print an error for invalid commands
             self.logger.log_action(f"Invalid command: {command}")
             print(f"Invalid command: {command}")
 
@@ -81,8 +88,8 @@ class MyFacebook:
 
         # Check to see if the friend already exists
         if friend_name in self.friends_manager.friends:
-            self.logger.log_action(f"Error: Friend {friend_name} already exists")
-            print(f"Error: Friend {friend_name} already exists")
+            self.logger.log_action(f"Error with friendadd: friend {friend_name} already exists")
+            print(f"Error with friendadd: friend {friend_name} already exists")
             return
 
         # Add the friend and log the action
@@ -139,8 +146,8 @@ class MyFacebook:
         
         # Check to see if the list already exists (or it is 'nil')
         if list_name in self.list_manager.lists or list_name == 'nil':
-            self.logger.log_action(f"Error: List {list_name} already exists")
-            print(f"Error: List {list_name} already exists")
+            self.logger.log_action(f"Error with listadd: list {list_name} already exists")
+            print(f"Error with listadd: list {list_name} already exists")
             return
         
         # Add the list and log the action
@@ -179,8 +186,10 @@ class MyFacebook:
             print("Error: no one is currently viewing profile")
             return
         
+        # Store the reserved file names
         reserved_names = {"audit.txt", "friends.txt", "lists.txt", "pictures.txt"}
 
+        # Check to see if the picture name matches one of the reserved file names
         if picture_name in reserved_names:
             self.logger.log_action(f"Error: invalid filename {picture_name}")
             print(f"Error: invalid filename {picture_name}")
@@ -227,10 +236,11 @@ class MyFacebook:
         # If current viewer is not profile owner, they can only set list to "nil" or a list they belong to
         if self.current_viewer != self.profile_owner and list_name != "nil":
             if not self.list_manager.friend_in_list(self.current_viewer, list_name):
-                self.logger.log_action(f"Error with chlish: friend {self.current_viewer} is not a member of list {list_name}")
-                print(f"Error with chlish: friend {self.current_viewer} is not a member of list {list_name}")
+                self.logger.log_action(f"Error with chlist: friend {self.current_viewer} is not a member of list {list_name}")
+                print(f"Error with chlist: friend {self.current_viewer} is not a member of list {list_name}")
                 return
        
+        # Change the list and log the action
         self.picture_manager.change_list(picture_name, list_name)
         self.logger.log_action(f"List for {picture_name} set to {list_name} by {self.current_viewer}")
         print(f"List for {picture_name} set to {list_name} by {self.current_viewer}")
@@ -256,6 +266,7 @@ class MyFacebook:
             print("Error with chmod: only profile owner or picture owner can change permissions")
             return
     
+        # Change the permissions and log the action
         self.picture_manager.change_permissions(picture_name, permissions)
         owner, list, others = permissions[:3]
         self.logger.log_action(f"Permissions for {picture_name} set to {owner} {list} {others} by {self.current_viewer}")
@@ -286,6 +297,7 @@ class MyFacebook:
             print(f"Error with chown: friend {new_owner} not found")
             return
         
+        # Change the owner and log the action
         self.picture_manager.change_owner(picture_name, new_owner)
         self.logger.log_action(f"Owner of {picture_name} changed to {new_owner}")
         print(f"Owner of {picture_name} changed to {new_owner}")
@@ -303,15 +315,17 @@ class MyFacebook:
             print(f"Error with readcomments: picture {picture_name} not found")
             return
         
+        # Determine whether or ont permissions were granted to read comments
         comment = self.picture_manager.read_comments(picture_name, self.current_viewer, self.list_manager)
 
         if comment is not None:
+            # Successfully read the comments and log the action
             self.logger.log_action(f"Friend {self.current_viewer} reads {picture_name} as:\n{comment}")
             print(f"Friend {self.current_viewer} reads {picture_name} as:\n{comment}")
         else:
+            # Log that read access is denied
             self.logger.log_action(f"Friend {self.current_viewer} denied read access to {picture_name}")
             print(f"Friend {self.current_viewer} denied read access to {picture_name}")
-
 
     def write_comments(self, picture_name, comment_text):
         # If no one is viewing the profile, log an error
@@ -326,12 +340,15 @@ class MyFacebook:
             print(f"Error with writecomments: picture {picture_name} not found")
             return
         
+        # Determine whether or not permissions were granted to write comments
         success = self.picture_manager.write_comments(picture_name, self.current_viewer, comment_text, self.list_manager)
         
         if success:
+            # Successfully write the comments and log the action
             self.logger.log_action(f"Friend {self.current_viewer} wrote to {picture_name}: {comment_text}")
             print(f"Friend {self.current_viewer} wrote to {picture_name}: {comment_text}")
         else:
+            # Log that write access is denied
             self.logger.log_action(f"Friend {self.current_viewer} denied write access to {picture_name}")
             print(f"Friend {self.current_viewer} denied write access to {picture_name}")
 
