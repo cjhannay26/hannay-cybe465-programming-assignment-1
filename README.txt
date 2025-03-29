@@ -1,14 +1,18 @@
 How my Program is Compiled (Interpreted since it is in Python):
 
-1) Open Visual Studio code
+1) Open Visual Studio code and go to the command terminal
 
 2) Make sure the Python is installed
     Check this in the terminal by running the command python --version
+    If Python is not installed, download and install it here: python.org
 
-3) Use the python command with the following arguments to test for both of my created used
+3) Open up the project's directory containing the access.py file, which is meant to be the main file of the program
+
+4) Use the python command with the following arguments to test for both of my created used
     python access.py testcase1.txt
     python access.py testcase2.txt
 
+    These commands would execute the main script (access.py) with the specified test case files as the inputs
+
     (access.py is the main/top-level file with the MyFacebook class which handles the access control by importing
     management classes for friends, lists, and pictures, in addition to logging information to audit.txt)
-
