@@ -27,11 +27,19 @@ class ListManager:
         try:
             with open(self.filename, 'r') as file:
                 for line in file:
+                    # Strip the newline and add each friend to the list
                     parts = line.strip().split()
+
+                    # Extract the list name from the first part
                     list_name = parts[0]
+
+                    # Extract the friends (as a set) from the remaining parts
                     members = set(parts[1:])
+
+                    # Store the lists's data into the the lists dictionary
                     self.lists[list_name] = members
         except FileNotFoundError:
+            # Handle the case for if the file does not exist
             print(f"Warning: {self.filename} not found. Starting with empty file {self.filename}")
 
     def save_to_file(self):
