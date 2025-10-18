@@ -74,7 +74,7 @@ A list of all current tests.
 
 A list of all tests that **do not cost money** to run (i.e., tests don't make calls to the AWS API).
 
-| Name | Purpose | Status | Link | Notes | Use Case IDS |
+| Name | Purpose | Status | File Path | Notes | Use Case IDS |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | Sign up | checks if a user to sign up | **Pass** | railsapp/cssp/spec/features/free/sign_up_user.rb | None | 1 |
 | Log in | checks if a user to log in | **Pass** | railsapp/cssp/spec/features/free/log_in_spec.rb | None | 2 |
@@ -99,7 +99,7 @@ A list of all tests that **do not cost money** to run (i.e., tests don't make ca
 
 A list of all tests that **cost money** to run (i.e., tests make calls to the AWS API).
 
-| Name | Purpose | Status | Link | Notes | Use Case IDS |
+| Name | Purpose | Status | File Path | Notes | Use Case IDS |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | Associate instance to group | checks if an instance can be associated with a group | **Fail** | railsapp/cssp/spec/features/not_free/associate_instance(s)_with_group_spec.rb | None | 29 |
 | Associate instance to user | checks if an instance can be associated with a user | **Fail** | railsapp/cssp/spec/features/not_free/associate_instance(s)_with_user_spec.rb | None | 28 |
