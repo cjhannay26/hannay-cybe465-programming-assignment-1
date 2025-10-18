@@ -91,9 +91,9 @@ A list of all tests that **do not cost money** to run (i.e., tests don't make ca
 | List users | checks if all existing users can be listed | **Fail** | railsapp/cssp/spec/features/free/list_users_spec.rb | 10 |
 | Remove user from group | checks if a user can be removed from a group | **Fail** | railsapp/cssp/spec/features/free/remove_user_from_group_spec.rb | 21 |
 | Remove user | checks if a user account can be deleted | **Fail** | railsapp/cssp/spec/features/free/remove_user_spec.rb | 14 |
-| View secrets | checks if all existing secrets can be displayed | **Fail** | Can't find link | 53 |
-| Edit secret association | checks if the secret and instructions to it can be changed | **Fail** | Can't find link | 59 |
-| Unassociate secret | checks if a secret can be unassociated with a user, group, or instance | **Fail** | Can't find link | 60 |
+| View secrets | checks if all existing secrets can be displayed | **Fail** | railsapp/cssp/spec/features/free/view_secrets_spec.rb | 53 |
+| Edit secret association | checks if the secret and instructions to it can be changed | **Fail** | railsapp/cssp/spec/features/free/edit_secret_association_spec.rb | 59 |
+| Unassociate secret | checks if a secret can be unassociated with a user, group, or instance | **Fail** | railsapp/cssp/spec/features/free/unassociate_secret_spec.rb | 60 |
 
 #### **Not Free Tests**
 
@@ -101,18 +101,18 @@ A list of all tests that **cost money** to run (i.e., tests make calls to the AW
 
 | Name | Purpose | Status | Notes | Use Case IDS |
 | :--- | :--- | :--- | :--- | :--- |
-| Associate instance to group | checks if an instance can be associated with a group | **Fail** | Can't find link | 29 |
-| Associate instance to user | checks if an instance can be associated with a user | **Fail** | Can't find link | 28 |
-| Auto-stop instances | checks if all instances are stopped based on a predetermined time | **Fail** | Can't find link | 33 |
-| Create instance for user | checks if an instance can be created and associated with a user | **Pass** | Can't find link | 35 |
-| Create instance for group | checks if an instance can be created and associated with a group | **Pass** | Can't find link | 36 |
-| Create instance from AMI | checks if an instance can be created from an AMI id | **Fail** | Can't find link | 37 |
-| Create AMI | checks if an image can be created from an existing instance | **Fail** | Can't find link | 24 |
-| Create security group | checks if a security group of a VPC can be created | **Fail** | Can't find link | 45 |
-| Create inbound rule | checks if an inbound rule for a security group can be created | **Fail** | Can't find link | 46 |
-| Create outbound rule | checks if an outbound rule for a security group can be created | **Fail** | Can't find link | 47 |
-| Create user instance from ami | checks if an instance to a user can be created from a common AMI id | **Fail** | Can't find link | 37 |
-| Create group instance from ami | checks if an instance to a group can be created from a common AMI id | **Fail** | Can't find link | 37 |
+| Associate instance to group | checks if an instance can be associated with a group | **Fail** | railsapp/cssp/spec/features/not_free/associate_instance(s)_with_group_spec.rb | 29 |
+| Associate instance to user | checks if an instance can be associated with a user | **Fail** | railsapp/cssp/spec/features/not_free/associate_instance(s)_with_user_spec.rb | 28 |
+| Auto-stop instances | checks if all instances are stopped based on a predetermined time | **Fail** | railsapp/cssp/spec/features/not_free/auto_stop_instances_spec.rb | 33 |
+| Create instance for user | checks if an instance can be created and associated with a user | **Pass** | railsapp/cssp/spec/features/not_free/create_instance_for_user_spec.rb | 35 |
+| Create instance for group | checks if an instance can be created and associated with a group | **Pass** | railsapp/cssp/spec/features/not_free/create_instance_for_group_spec.rb | 36 |
+| Create instance from AMI | checks if an instance can be created from an AMI id | **Fail** | railsapp/cssp/spec/features/not_free/create_instance_AMI_spec.rb | 37 |
+| Create AMI | checks if an image can be created from an existing instance | **Fail** | railsapp/cssp/spec/features/not_Free/create_ami_spec.rb | 24 |
+| Create security group | checks if a security group of a VPC can be created | **Fail** | railsapp/cssp/spec/features/not_free/create_security_group_spec.rb | 45 |
+| Create inbound rule | checks if an inbound rule for a security group can be created | **Fail** | railsapp/cssp/spec/features/not_free/create_inbound_rule_spec.rb| 46 |
+| Create outbound rule | checks if an outbound rule for a security group can be created | **Fail** | railsapp/cssp/spec/features/not_free/create_outbound_rule_spec.rb | 47 |
+| Create user instance from ami | checks if an instance to a user can be created from a common AMI id | **Fail** | railsapp/cssp/spec/features/not_free/create_user_instance_AMI_spec.rb | 37 |
+| Create group instance from ami | checks if an instance to a group can be created from a common AMI id | **Fail** | railsapp/cssp/spec/features/not_free/create_group_instance_AMI_spec.rb | 37 |
 | Create VPC | checks if a VPC can be created in AWS | **Fail** | UI failure | 40 |
 | Delete VPC | checks if a VPC can be deleted | **Fail** | Can't find link | 52 |
 | List instances | checks if instances are listed correctly | **Fail** | Can't find link | 3 |
