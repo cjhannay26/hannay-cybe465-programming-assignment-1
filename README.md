@@ -1,0 +1,136 @@
+## 🧪 STS-CSSP-Capstone Testing Strategy
+
+This document defines the goal of writing tests, what tests will be written, and when tests will be written, as well as the testing environment and procedures.
+
+---
+
+### **Goal of Writing Tests**
+
+The goal of writing tests is to ensure that the application is working the way it is intended to. This is to catch any issues early in the development process and before deploying any changes to production.
+
+* **Test Type:** **Feature tests** are the main tests that will be written, which verify user interaction is functioning properly.
+* **Basis:** These tests will be written according to software requirements and design documentation.
+* **Schedule:** Tests will be written **asynchronously**, preferably before development takes place but also retroactively if need be.
+
+---
+
+### **Testing Environment**
+
+This section defines how to set up an environment to run tests.
+
+1.  **Git**
+    * Installation command: `sudo apt install git`
+2.  **Docker Engine**
+    * Installation commands:
+        ```bash
+        curl -fsSL [https://get.docker.com-o](https://get.docker.com-o) get-docker.sh
+        sudo sh get-docker.sh
+        ```
+    * **Note:** `Curl` is required if you use the code above to install Docker Engine. You can install it using the command `sudo apt install curl`.
+
+---
+
+### **Testing Procedure**
+
+This defines how tests will be run.
+
+#### **Local Testing**
+1.  Clone the repository.
+2.  Checkout the main branch.
+3.  Cd to the project root directory.
+4.  Start the rails server (e.g., `rails server`).
+5.  Run tests:
+    * Run all tests: (e.g., `spec`)
+    * Run **free** tests: (e.g., `rspec spec/features/free`)
+    * Run **not free** tests: (e.g., `rspec spec/features/not_free`)
+
+#### **Docker Testing**
+1.  Clone the repository.
+2.  Checkout the main branch.
+3.  Build the Docker testing container (e.g., `docker build -t "cssp_test".`).
+    * *The example above assumes the Dockerfile is named Dockerfile and the path is the project directory*.
+    * *It also assumes the user has been added to the Docker group*. If not, you can prepend Docker commands with `sudo`.
+4.  Run the Docker testing container (e.g., `docker run -t "cssp_test"`).
+    * The `ENTRYPOINT` to the Docker container automatically runs all tests. The results of running all the tests will then be displayed in the terminal.
+
+---
+
+### **Testing Schedule**
+
+This defines when and what tests will be run.
+
+* All tests will be run when a **commit is made** to the repository, helping developers to quickly see if their code changes break anything.
+* All tests will also be run when a **pull request is made**, ensuring good code quality on the main branch.
+* If tests fail on a pull request, a follow-up commit can be made to fix any issues.
+* Once all tests pass, the pull request will automatically be merged into the main branch.
+
+---
+
+### **Test List**
+
+A list of all current tests.
+
+#### **Free Tests**
+
+A list of all tests that **do not cost money** to run (i.e., tests don't make calls to the AWS API).
+
+| Name | Purpose | Status | Notes | Use Case IDS |
+| :--- | :--- | :--- | :--- | :--- |
+| Sign up | checks if a user to sign up | **Pass** | Can't find link | 1 |
+| Log in | checks if a user to log in | **Pass** | Can't find link | 2 |
+| Log out | checks if the user can log out | **Pass** | Can't find link | 8 |
+| Create group | checks if a group can be created | **Pass** | Can't find link | 17 |
+| Delete group | checks if a group can be deleted | **Fail** | Test failure; Trouble dealing with turbo confirm | 19 |
+| Add user | checks if a user can be added to the database | **Fail** | UI failure | 13 |
+| Add user to group | checks if a user can be added to a group | **Pass** | Can't find link | 20 |
+| Create secret | checks if a secret can be made with specified information | **Pass** | Can't find link | 55 |
+| Delete secret | checks if a secret can be deleted | **Fail** | Can't find link | 57 |
+| Create secret association | checks if a secret can be associated with a user/group/ami | **Fail** | Can't find link | 58 |
+| Edit secret | checks if the information related to a secret can be changed | **Fail** | Can't find link | 56 |
+| List groups | checks if all existing groups can be listed | **Fail** | Can't find link | 15 |
+| List users | checks if all existing users can be listed | **Fail** | Can't find link | 10 |
+| Remove user from group | checks if a user can be removed from a group | **Fail** | Can't find link | 21 |
+| Remove user | checks if a user account can be deleted | **Fail** | Can't find link | 14 |
+| View secrets | checks if all existing secrets can be displayed | **Fail** | Can't find link | 53 |
+| Edit secret association | checks if the secret and instructions to it can be changed | **Fail** | Can't find link | 59 |
+| Unassociate secret | checks if a secret can be unassociated with a user, group, or instance | **Fail** | Can't find link | 60 |
+
+#### **Not Free Tests**
+
+A list of all tests that **cost money** to run (i.e., tests make calls to the AWS API).
+
+| Name | Purpose | Status | Notes | Use Case IDS |
+| :--- | :--- | :--- | :--- | :--- |
+| Associate instance to group | checks if an instance can be associated with a group | **Fail** | Can't find link | 29 |
+| Associate instance to user | checks if an instance can be associated with a user | **Fail** | Can't find link | 28 |
+| Auto-stop instances | checks if all instances are stopped based on a predetermined time | **Fail** | Can't find link | 33 |
+| Create instance for user | checks if an instance can be created and associated with a user | **Pass** | Can't find link | 35 |
+| Create instance for group | checks if an instance can be created and associated with a group | **Pass** | Can't find link | 36 |
+| Create instance from AMI | checks if an instance can be created from an AMI id | **Fail** | Can't find link | 37 |
+| Create AMI | checks if an image can be created from an existing instance | **Fail** | Can't find link | 24 |
+| Create security group | checks if a security group of a VPC can be created | **Fail** | Can't find link | 45 |
+| Create inbound rule | checks if an inbound rule for a security group can be created | **Fail** | Can't find link | 46 |
+| Create outbound rule | checks if an outbound rule for a security group can be created | **Fail** | Can't find link | 47 |
+| Create user instance from ami | checks if an instance to a user can be created from a common AMI id | **Fail** | Can't find link | 37 |
+| Create group instance from ami | checks if an instance to a group can be created from a common AMI id | **Fail** | Can't find link | 37 |
+| Create VPC | checks if a VPC can be created in AWS | **Fail** | UI failure | 40 |
+| Delete VPC | checks if a VPC can be deleted | **Fail** | Can't find link | 52 |
+| List instances | checks if instances are listed correctly | **Fail** | Can't find link | 3 |
+| View instances (user) | checks if instances can be listed from a user perspective | **Fail** | Can't find link | 22 |
+| Modify VPC | checks if a VPC's information can be edited | **Fail** | Can't find link | - |
+| Show VPC | checks if specific details of a VPC are shown | **Fail** | Can't find link | 41 |
+| Show associations | checks if all secret associations can be shown | **Fail** | Can't find link | 54 |
+| Start instance | checks if an instance can be started | **Fail** | Can't find link | 25 |
+| Stop instance | checks if an instance can be stopped | **Fail** | Can't find link | 26 |
+| Unassociate instance from group | checks if an instance can be unassociated from a group | **Fail** | Can't find link | 32 |
+| Unassociate instance from user | checks if an instance can be unassociated from a user | **Fail** | Can't find link | 31 |
+| View images | checks if common images as well as images created from instances can be displayed | **Fail** | Can't find link | 34 |
+| View VPC | checks if a VPC is accessible by CSSP | **Fail** | Can't find link | 39 |
+| Create subnet | checks if a subnet associated to a VPC can be created | **Pass** | Contingent on correct subnet entry | 42 |
+| Delete subnet | checks if a subnet can be deleted | **Fail** | Can't find link | 44 |
+| Add IPv4/IPv6 CIDR ranges to rule | checks if CIDR ranges can be added | **Fail** | Not complete | 48 |
+| Delete IPv4/IPv6 CIDR ranges from rule | checks if CIDR ranges can be deleted | **Fail** | Not complete | 49 |
+| Add existing rule to another security group | checks if an existing rule can be added to a security group | **Fail** | Not complete | 50 |
+| Terminate Instance | checks if an instance can be terminated | **Fail** | Can't find link | 27 |
+| Edit instance association | checks if an associated instance can be changed | **Fail** | Can't find link | 30 |
+| Edit image | checks if the description of a custom image can be changed | **Fail** | Can't find link | 38 |
