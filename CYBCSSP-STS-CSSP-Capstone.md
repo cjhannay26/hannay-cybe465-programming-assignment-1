@@ -84,7 +84,7 @@ A list of all tests that **do not cost money** to run (i.e., tests don't make ca
 | Add user | checks if a user can be added to the database | **Fail** | railsapp/cssp/spec/features/free/add_user_spec.rb | UI failure | 13 |
 | Add user to group | checks if a user can be added to a group | **Pass** | railsapp/cssp/spec/features/free/add_user_to_group_spec.rb | None | 20 |
 | Create secret | checks if a secret can be made with specified information | **Pass** | railsapp/cssp/spec/features/free/create_secret_spec.rb | None | 55 |
-| Delete secret | checks if a secret can be deleted | **Fail** | railsapp/cssp/spec/features/free/delete_secret_spec.rb | 57 |
+| Delete secret | checks if a secret can be deleted | **Fail** | railsapp/cssp/spec/features/free/delete_secret_spec.rb | None | 57 |
 | Create secret association | checks if a secret can be associated with a user/group/ami | **Fail** | railsapp/cssp/spec/features/free/create_secret_association.rb | None | 58 |
 | Edit secret | checks if the information related to a secret can be changed | **Fail** | railsapp/cssp/spec/features/free/edit_secret_spec.rb | None | 56 |
 | List groups | checks if all existing groups can be listed | **Fail** | railsapp/cssp/spec/features/free/list_groups_spec.rb | None | 15 |
