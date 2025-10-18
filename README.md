@@ -40,7 +40,7 @@ This defines how tests will be run.
 3.  Cd to the project root directory.
 4.  Start the rails server (e.g., `rails server`).
 5.  Run tests:
-    * Run all tests: (e.g., `spec`)
+    * Run all tests: (e.g., `rspec`)
     * Run **free** tests: (e.g., `rspec spec/features/free`)
     * Run **not free** tests: (e.g., `rspec spec/features/not_free`)
 
