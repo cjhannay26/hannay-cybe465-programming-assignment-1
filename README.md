@@ -1,5 +1,4 @@
-## 🧪 STS-CSSP-Capstone 
-## Testing Strategy
+## 🧪 STS-CSSP-Capstone Testing Strategy
 
 This document defines the goal of writing tests, what tests will be written, and when tests will be written, as well as the testing environment and procedures.
 
