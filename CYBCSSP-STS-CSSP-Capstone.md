@@ -76,21 +76,21 @@ A list of all tests that **do not cost money** to run (i.e., tests don't make ca
 
 | Name | Purpose | Status | Notes | Use Case IDS |
 | :--- | :--- | :--- | :--- | :--- |
-| Sign up | checks if a user to sign up | **Pass** | Can't find link | 1 |
-| Log in | checks if a user to log in | **Pass** | Can't find link | 2 |
-| Log out | checks if the user can log out | **Pass** | Can't find link | 8 |
-| Create group | checks if a group can be created | **Pass** | Can't find link | 17 |
+| Sign up | checks if a user to sign up | **Pass** | railsapp/cssp/spec/features/free/sign_up_user.rb | 1 |
+| Log in | checks if a user to log in | **Pass** | railsapp/cssp/spec/features/free/log_in_spec.rb | 2 |
+| Log out | checks if the user can log out | **Pass** | railsapp/cssp/spec/features/free/log_out_spec.rb | 8 |
+| Create group | checks if a group can be created | **Pass** | railsapp/cssp/spec/features/free/create_group_spec.rb | 17 |
 | Delete group | checks if a group can be deleted | **Fail** | Test failure; Trouble dealing with turbo confirm | 19 |
 | Add user | checks if a user can be added to the database | **Fail** | UI failure | 13 |
-| Add user to group | checks if a user can be added to a group | **Pass** | Can't find link | 20 |
-| Create secret | checks if a secret can be made with specified information | **Pass** | Can't find link | 55 |
-| Delete secret | checks if a secret can be deleted | **Fail** | Can't find link | 57 |
-| Create secret association | checks if a secret can be associated with a user/group/ami | **Fail** | Can't find link | 58 |
-| Edit secret | checks if the information related to a secret can be changed | **Fail** | Can't find link | 56 |
-| List groups | checks if all existing groups can be listed | **Fail** | Can't find link | 15 |
-| List users | checks if all existing users can be listed | **Fail** | Can't find link | 10 |
-| Remove user from group | checks if a user can be removed from a group | **Fail** | Can't find link | 21 |
-| Remove user | checks if a user account can be deleted | **Fail** | Can't find link | 14 |
+| Add user to group | checks if a user can be added to a group | **Pass** | railsapp/cssp/spec/features/free/add_user_to_group_spec.rb | 20 |
+| Create secret | checks if a secret can be made with specified information | **Pass** | railsapp/cssp/spec/features/free/create_secret_spec.rb | 55 |
+| Delete secret | checks if a secret can be deleted | **Fail** | railsapp/cssp/spec/features/free/delete_secret_spec.rb | 57 |
+| Create secret association | checks if a secret can be associated with a user/group/ami | **Fail** | railsapp/cssp/spec/features/free/create_secret_association.rb | 58 |
+| Edit secret | checks if the information related to a secret can be changed | **Fail** | railsapp/cssp/spec/features/free/edit_secret_spec.rb | 56 |
+| List groups | checks if all existing groups can be listed | **Fail** | railsapp/cssp/spec/features/free/list_groups_spec.rb | 15 |
+| List users | checks if all existing users can be listed | **Fail** | railsapp/cssp/spec/features/free/list_users_spec.rb | 10 |
+| Remove user from group | checks if a user can be removed from a group | **Fail** | railsapp/cssp/spec/features/free/remove_user_from_group_spec.rb | 21 |
+| Remove user | checks if a user account can be deleted | **Fail** | railsapp/cssp/spec/features/free/remove_user_spec.rb | 14 |
 | View secrets | checks if all existing secrets can be displayed | **Fail** | Can't find link | 53 |
 | Edit secret association | checks if the secret and instructions to it can be changed | **Fail** | Can't find link | 59 |
 | Unassociate secret | checks if a secret can be unassociated with a user, group, or instance | **Fail** | Can't find link | 60 |
