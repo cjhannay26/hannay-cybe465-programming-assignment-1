@@ -75,6 +75,7 @@ This application is designed to be used with access to AWS restricted through **
   }
 ]
 }
+```
 ## Setting up CSSP in Development Mode
 
 ### Running the Application
