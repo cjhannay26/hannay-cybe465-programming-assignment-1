@@ -116,7 +116,7 @@ This application is designed to be used with access to AWS restricted through **
         "aws:RequestTag/Owner": "cssp" 
       },
       "ForAllValues:StringEquals": { 
-        "aws:TagKeys": 
+        "aws:TagKeys": [ 
           "Owner" 
         ]
       }
