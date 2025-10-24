@@ -291,7 +291,7 @@ This application is designed to be used with access to AWS restricted through **
   },
   {
     "Sid": "AuthorizeSecurity GroupAllowances", 
-    "Effect": "Allow", ]
+    "Effect": "Allow", 
     "Action": [
       "ec2:AuthorizeSecurity Group Egress", 
       "ec2:AuthorizeSecurity GroupIngress", 
