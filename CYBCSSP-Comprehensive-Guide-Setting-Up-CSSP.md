@@ -9,7 +9,8 @@
         ./build-container.sh
         ```
 2.  **Creating Google OAuth2 Keys (Optional)**:
-    * Go to the Google API Console[cite: 289].
+    * These steps are for the utilization of Google OAuth2 in development mode and are derived from the official documentation at Setting up OAuth 2.0 - API Console Help
+    * Go to the Google API Console.
     * Select a project or create a new one from the projects list.
     * Click on "**Credentials**" on the left side.
     * Create credentials and select "**OAuth client ID**".
