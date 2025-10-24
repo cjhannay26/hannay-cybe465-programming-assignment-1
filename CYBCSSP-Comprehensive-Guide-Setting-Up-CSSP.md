@@ -79,62 +79,62 @@ This application is designed to be used with access to AWS restricted through **
 ### AWS IAM ACL: Instance Creation
 ```json
 {
-"Version": "2012-10-17", [cite: 58]
+"Version": "2012-10-17", 
 "Statement": [
   {
-    "Sid": "AllowRunInstances", [cite: 61]
-    "Effect": "Allow", [cite: 64]
-    "Action": "ec2:RunInstances", [cite: 65]
+    "Sid": "AllowRunInstances", 
+    "Effect": "Allow", 
+    "Action": "ec2:RunInstances",
     "Resource": [
-      "arn:aws:ec2:*::image/*", [cite: 67]
-      "arn:aws:ec2:*::snapshot/*", [cite: 68]
-      "arn:aws:ec2:*:*:subnet/*", [cite: 69]
-      "arn:aws:ec2:*:*:network-interface/*", [cite: 70]
-      "arn:aws:ec2:*:*:security-group/*", [cite: 71]
-      "arn:aws:ec2:*:*:volume/*", [cite: 72]
-      "arn:aws:ec2:*:*:instance/*", [cite: 73]
-      "arn:aws:ec2:*:*:key-pair/*" [cite: 74]
+      "arn:aws:ec2:*::image/*", 
+      "arn:aws:ec2:*::snapshot/*", 
+      "arn:aws:ec2:*:*:subnet/*", 
+      "arn:aws:ec2:*:*:network-interface/*", 
+      "arn:aws:ec2:*:*:security-group/*",
+      "arn:aws:ec2:*:*:volume/*", 
+      "arn:aws:ec2:*:*:instance/*",
+      "arn:aws:ec2:*:*:key-pair/*"
     ]
   },
   {
-    "Sid": "AllowRunInstances With Restrictions", [cite: 75]
-    "Effect": "Allow", [cite: 76]
+    "Sid": "AllowRunInstances With Restrictions",
+    "Effect": "Allow",
     "Action": [
-      "ec2:CreateVolume", [cite: 78]
-      "ec2:RunInstances" [cite: 79]
+      "ec2:CreateVolume", 
+      "ec2:RunInstances"
     ],
     "Resource": [
-      "arn:aws:ec2:*::image/*", [cite: 83]
-      "arn:aws:ec2:*:*:volume/*", [cite: 84]
-      "arn:aws:ec2:*:*:network-interface/*", [cite: 85]
-      "arn:aws:ec2:*:*:security-group/*", [cite: 86]
-      "arn:aws:ec2:*:*:subnet/*", [cite: 87]
-      "arn:aws:ec2:*:*:instance/*" [cite: 88]
+      "arn:aws:ec2:*::image/*",
+      "arn:aws:ec2:*:*:volume/*", 
+      "arn:aws:ec2:*:*:network-interface/*", 
+      "arn:aws:ec2:*:*:security-group/*", 
+      "arn:aws:ec2:*:*:subnet/*", 
+      "arn:aws:ec2:*:*:instance/*" 
     ],
-    "Condition": { [cite: 89]
-      "StringEquals": { [cite: 90]
-        "aws:RequestTag/Owner": "cssp" [cite: 91]
+    "Condition": { 
+      "StringEquals": { 
+        "aws:RequestTag/Owner": "cssp" 
       },
-      "ForAllValues:StringEquals": { [cite: 93]
-        "aws:TagKeys": [cite: 94]
-          "Owner" [cite: 100]
+      "ForAllValues:StringEquals": { 
+        "aws:TagKeys": 
+          "Owner" 
         ]
       }
     }
   },
   {
-    "Sid": "AllowCreateTags Only Launching", [cite: 103]
-    "Effect": "Allow", [cite: 104]
+    "Sid": "AllowCreateTags Only Launching", 
+    "Effect": "Allow", 
     "Action": [
-      "ec2:CreateTags" [cite: 107]
+      "ec2:CreateTags" 
     ],
     "Resource": [
-      "arn:aws:ec2:*:*:volume/*", [cite: 109]
-      "arn:aws:ec2:*:*:instance/*" [cite: 110]
+      "arn:aws:ec2:*:*:volume/*", 
+      "arn:aws:ec2:*:*:instance/*" 
     ],
-    "Condition": { [cite: 112]
-      "StringEquals": { [cite: 113]
-        "ec2:CreateAction": "RunInstances" [cite: 114]
+    "Condition": { 
+      "StringEquals": { 
+        "ec2:CreateAction": "RunInstances" 
       }
     }
   }
@@ -144,19 +144,19 @@ This application is designed to be used with access to AWS restricted through **
 ### AWS IAM ACL: Read EC2 Resources
 ```json
 {
-"Version": "2012-10-17", [cite: 120]
+"Version": "2012-10-17", 
 "Statement": [
   {
-    "Sid": "AllowRead EC2Resources", [cite: 125]
-    "Effect": "Allow", [cite: 126]
-    "Action": "ec2:Describe", [cite: 127]
-    "Resource": "*" [cite: 128]
+    "Sid": "AllowRead EC2Resources", 
+    "Effect": "Allow",
+    "Action": "ec2:Describe", 
+    "Resource": "*" 
   },
   {
-    "Sid": "AllowDecodeErrors", [cite: 129]
-    "Effect": "Allow", [cite: 130]
-    "Action": "sts:DecodeAuthorizationMessage", [cite: 134]
-    "Resource": "*" [cite: 134]
+    "Sid": "AllowDecodeErrors", 
+    "Effect": "Allow", 
+    "Action": "sts:DecodeAuthorizationMessage", 
+    "Resource": "*" 
   }
 ]
 }
@@ -164,144 +164,144 @@ This application is designed to be used with access to AWS restricted through **
 ### AWS IAM ACL: Instance & VPC Management
 ```json
 {
-"Version": "2012-10-17", [cite: 137]
+"Version": "2012-10-17",
 "Statement": [
   {
-    "Sid": "CreateResources", [cite: 140]
-    "Effect": "Allow", [cite: 141]
+    "Sid": "CreateResources", 
+    "Effect": "Allow", 
     "Action": [
-      "ec2:CreateDhcpOptions", [cite: 144]
-      "ec2:CreateSecurityGroup", [cite: 145]
-      "ec2:CreateInternetGateway", [cite: 146]
-      "ec2:CreateNetworkAcl", [cite: 147]
-      "ec2:CreateRoute", [cite: 148]
-      "ec2:CreateRouteTable", [cite: 149]
-      "ec2:CreateSubnet", [cite: 150]
-      "ec2:CreateVpc", [cite: 151]
-      "ec2:CreateNetworkInterface", [cite: 152]
-      "ec2:ImportKeyPair" [cite: 153]
+      "ec2:CreateDhcpOptions", 
+      "ec2:CreateSecurityGroup", 
+      "ec2:CreateInternetGateway", 
+      "ec2:CreateNetworkAcl", 
+      "ec2:CreateRoute", 
+      "ec2:CreateRouteTable", 
+      "ec2:CreateSubnet", 
+      "ec2:CreateVpc",
+      "ec2:CreateNetworkInterface", 
+      "ec2:ImportKeyPair"
     ],
-    "Resource": "*" [cite: 154]
+    "Resource": "*" 
   },
   {
-    "Sid": "ModifyRoutes", [cite: 157]
-    "Effect": "Allow", [cite: 158]
+    "Sid": "ModifyRoutes", 
+    "Effect": "Allow", 
     "Action": [
-      "ec2:CreateRoute", [cite: 160]
-      "ec2:DeleteRoute" [cite: 161]
+      "ec2:CreateRoute", 
+      "ec2:DeleteRoute" 
     ],
-    "Resource": "arn:aws:ec2:*:*:route-table/*", [cite: 163]
-    "Condition": { [cite: 164]
-      "StringEquals": { [cite: 165]
-        "ec2:ResourceTag/Owner": "cssp" [cite: 170]
+    "Resource": "arn:aws:ec2:*:*:route-table/*", 
+    "Condition": { 
+      "StringEquals": { 
+        "ec2:ResourceTag/Owner": "cssp"
       }
     }
   },
   {
-    "Sid": "ModifyResources", [cite: 173]
-    "Effect": "Allow", [cite: 174]
+    "Sid": "ModifyResources", 
+    "Effect": "Allow", 
     "Action": [
-      "ec2:DetachNetworkInterface", [cite: 177]
-      "ec2:DetachInternetGateway", [cite: 178]
-      "ec2:Disassociate Route Table", [cite: 179]
-      "ec2:DisassociateSubnetCidrBlock", [cite: 180]
-      "ec2:AssociateRouteTable", [cite: 181]
-      "ec2:AssociateSubnetCidrBlock", [cite: 182]
-      "ec2:ModifyVpcAttribute", [cite: 183]
-      "ec2:ModifySubnetAttribute", [cite: 184]
-      "ec2:DeleteNetworkAclEntry", [cite: 185]
-      "ec2:CreateNetworkAclEntry", [cite: 186]
-      "ec2:DeleteKeyPair", [cite: 187]
-      "ec2:DescribeKeyPairs", [cite: 188]
-      "ec2:ModifyInstanceAttribute", [cite: 189]
-      "ec2:ModifyNetworkInterfaceAttribute" [cite: 190]
+      "ec2:DetachNetworkInterface",
+      "ec2:DetachInternetGateway", 
+      "ec2:Disassociate Route Table", 
+      "ec2:DisassociateSubnetCidrBlock", 
+      "ec2:AssociateRouteTable", 
+      "ec2:AssociateSubnetCidrBlock", 
+      "ec2:ModifyVpcAttribute", 
+      "ec2:ModifySubnetAttribute",
+      "ec2:DeleteNetworkAclEntry",
+      "ec2:CreateNetworkAclEntry",
+      "ec2:DeleteKeyPair", 
+      "ec2:DescribeKeyPairs", 
+      "ec2:ModifyInstanceAttribute", 
+      "ec2:ModifyNetworkInterfaceAttribute" 
     ],
-    "Resource": "*" [cite: 191]
+    "Resource": "*"
   },
   {
-    "Sid": "AllowModifyInstances", [cite: 192]
-    "Effect": "Allow", [cite: 193]
+    "Sid": "AllowModifyInstances", 
+    "Effect": "Allow", 
     "Action": [
-      "ec2:TerminateInstances", [cite: 195]
-      "ec2:StartInstances", [cite: 196]
-      "ec2:StopInstances", [cite: 197]
-      "ec2:RebootInstances", [cite: 198]
-      "ec2:DeleteVolume" [cite: 199]
+      "ec2:TerminateInstances", 
+      "ec2:StartInstances", 
+      "ec2:StopInstances",
+      "ec2:RebootInstances", 
+      "ec2:DeleteVolume" 
     ],
-    "Resource": "*", [cite: 201]
-    "Condition": { [cite: 202]
-      "ForAnyValue:StringEquals": { [cite: 203]
-        "ec2:ResourceTag/Owner": "cssp" [cite: 209]
+    "Resource": "*", 
+    "Condition": { 
+      "ForAnyValue:StringEquals": { 
+        "ec2:ResourceTag/Owner": "cssp" 
       }
     }
   },
   {
-    "Sid": "AllowAttachIGW", [cite: 211]
-    "Effect": "Allow", [cite: 212]
-    "Action": "ec2:AttachInternetGateway", [cite: 213]
-    "Resource": "*" [cite: 214]
+    "Sid": "AllowAttachIGW",
+    "Effect": "Allow", 
+    "Action": "ec2:AttachInternetGateway", 
+    "Resource": "*" 
   },
   {
-    "Sid": "AllowDeleteWithTags", [cite: 215]
-    "Effect": "Allow", [cite: 216]
+    "Sid": "AllowDeleteWithTags", 
+    "Effect": "Allow", 
     "Action": [
-      "ec2:DeleteInternetGateway", [cite: 218]
-      "ec2:DeleteSecurityGroup", [cite: 219]
-      "ec2:DeleteDhcpOptions", [cite: 220]
-      "ec2:DeleteNetworkAcl", [cite: 221]
-      "ec2:DeleteRouteTable", [cite: 222]
-      "ec2:DeleteRoute" [cite: 223]
+      "ec2:DeleteInternetGateway",
+      "ec2:DeleteSecurityGroup", 
+      "ec2:DeleteDhcpOptions", 
+      "ec2:DeleteNetworkAcl", 
+      "ec2:DeleteRouteTable",
+      "ec2:DeleteRoute" 
     ],
-    "Resource": "*", [cite: 225]
-    "Condition": { [cite: 226]
-      "ForAnyValue:StringEquals": { [cite: 227]
-        "ec2:ResourceTag/Owner": "cssp" [cite: 231]
+    "Resource": "*", 
+    "Condition": { 
+      "ForAnyValue:StringEquals": { 
+        "ec2:ResourceTag/Owner": "cssp" 
       }
     }
   },
   {
-    "Sid": "AllowDelete Subnet", [cite: 233]
-    "Effect": "Allow", [cite: 234]
+    "Sid": "AllowDelete Subnet", 
+    "Effect": "Allow", 
     "Action": [
-      "ec2:DeleteNetworkInterface", [cite: 236]
-      "ec2:DeleteSubnet" [cite: 237]
+      "ec2:DeleteNetworkInterface", 
+      "ec2:DeleteSubnet" 
     ],
-    "Resource": "*" [cite: 243]
+    "Resource": "*" 
   },
   {
-    "Sid": "AllowDeleteVPC", [cite: 244]
-    "Effect": "Allow", [cite: 245]
-    "Action": "ec2:DeleteVpc", [cite: 246]
-    "Resource": "*" [cite: 247]
+    "Sid": "AllowDeleteVPC", 
+    "Effect": "Allow", 
+    "Action": "ec2:DeleteVpc",
+    "Resource": "*" 
   },
   {
-    "Sid": "AllowCreateTags", [cite: 248]
-    "Effect": "Allow", [cite: 249]
-    "Action": "ec2:CreateTags", [cite: 250]
+    "Sid": "AllowCreateTags", 
+    "Effect": "Allow", 
+    "Action": "ec2:CreateTags", 
     "Resource": [
-      "arn:aws:ec2:*:*:subnet/*", [cite: 252]
-      "arn:aws:ec2:*:*:route-table/*", [cite: 253]
-      "arn:aws:ec2:*:*:dhcp-options/*", [cite: 254]
-      "arn:aws:ec2:*:*:security-group/*", [cite: 255]
-      "arn:aws:ec2:*:*:network-acl/*", [cite: 256]
-      "arn:aws:ec2:*:*:vpc/*", [cite: 257]
-      "arn:aws:ec2:*:*:instance/*", [cite: 258]
-      "arn:aws:ec2:*:*:internet-gateway/*" [cite: 259]
+      "arn:aws:ec2:*:*:subnet/*", 
+      "arn:aws:ec2:*:*:route-table/*", 
+      "arn:aws:ec2:*:*:dhcp-options/*", 
+      "arn:aws:ec2:*:*:security-group/*",
+      "arn:aws:ec2:*:*:network-acl/*", 
+      "arn:aws:ec2:*:*:vpc/*", 
+      "arn:aws:ec2:*:*:instance/*", 
+      "arn:aws:ec2:*:*:internet-gateway/*" 
     ]
   },
   {
-    "Sid": "AuthorizeSecurity GroupAllowances", [cite: 263]
-    "Effect": "Allow", [cite: 264]
+    "Sid": "AuthorizeSecurity GroupAllowances", 
+    "Effect": "Allow", ]
     "Action": [
-      "ec2:AuthorizeSecurity Group Egress", [cite: 266]
-      "ec2:AuthorizeSecurity GroupIngress", [cite: 267]
-      "ec2:Revoke Security Group Egress", [cite: 268]
-      "ec2:RevokeSecurity GroupIngress" [cite: 269]
+      "ec2:AuthorizeSecurity Group Egress", 
+      "ec2:AuthorizeSecurity GroupIngress", 
+      "ec2:Revoke Security Group Egress", 
+      "ec2:RevokeSecurity GroupIngress" 
     ],
-    "Resource": "*", [cite: 271]
-    "Condition": { [cite: 272]
-      "ForAnyValue:StringEquals": { [cite: 273]
-        "ec2:ResourceTag/Owner": "cssp" [cite: 278]
+    "Resource": "*", 
+    "Condition": { 
+      "ForAnyValue:StringEquals": {
+        "ec2:ResourceTag/Owner": "cssp"
       }
     }
   }
