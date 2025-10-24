@@ -1,3 +1,80 @@
+# ☑ Comprehensive Guide to Setting up CSSP
+
+This guide provides step-by-step instructions on setting up **CSSP (Cyber Sandbox Software Portal)** in both **development** and **production** modes using Docker. Please follow the instructions carefully to ensure a smooth setup process.
+
+*This guide is for **Ubuntu 22.04 and up-to-date as of May 2023**.*
+
+---
+
+## Prerequisites
+
+Before you begin, make sure you have Docker installed on your machine.
+
+### 🐳 Docker Installation
+
+1.  **Installing Docker**:
+    * Install the Docker packages from the Ubuntu 22.04 Repository:
+        ```bash
+        apt install docker.io 
+        ```
+2.  **Adding Yourself to the Docker Group**:
+    * Add yourself to the Docker group by running the following commands:
+        ```bash
+        sudo usermod aG docker $USER 
+        newgrp docker 
+        ```
+    * Verify that you are in the Docker group by running the `groups` command. The output should include the "docker" group.
+3.  **Starting, Stopping, Restarting, and Checking Docker Status**:
+    * To check the Docker status, use the following command:
+        ```bash
+        sudo systemctl status docker 
+        ```
+    * To restart Docker, use:
+        ```bash
+        sudo systemctl restart docker 
+        ```
+    * To start Docker:
+        ```bash
+        sudo systemctl start docker 
+        ```
+    * To stop Docker:
+        ```bash
+        sudo systemctl stop docker 
+        ```
+
+---
+
+## AWS Access Control Lists (ACLs) for IAM
+
+This application is designed to be used with access to AWS restricted through **ACLs applied to an IAM account**[cite: 28]. [cite_start]Each ACL is designed to restrict access to the minimum number of components that an instance of CSSP would require[cite: 29]. [cite_start]Listed below are the ACLs that should be applied to the group containing the IAM user.
+
+### AWS IAM ACL: Image Creation 
+
+```json
+{
+"Version": "2012-10-17", 
+"Statement": [
+  {
+    "Sid": "AllowCreateImage", 
+    "Effect": "Allow", 
+    "Action": "ec2:CreateImage", 
+    "Resource": [
+      "arn:aws:ec2:*::image/*", 
+      "arn:aws:ec2:*:*:instance/*" 
+    ]
+  },
+  {
+    "Sid": "AllowCreateTags Only Launching", 
+    "Effect": "Allow",
+    "Action": [
+      "ec2:CreateTags" 
+    ],
+    "Resource": [
+      "arn:aws:ec2:*::image/*" 
+    ]
+  }
+]
+}
 ## Setting up CSSP in Development Mode
 
 ### Running the Application
