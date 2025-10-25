@@ -1,3 +1,4 @@
+
 # ☑ Comprehensive Guide to Setting up CSSP
 
 This guide provides step-by-step instructions on setting up **CSSP (Cyber Sandbox Software Portal)** in both **development** and **production** modes using Docker. Please follow the instructions carefully to ensure a smooth setup process.
@@ -46,7 +47,7 @@ Before you begin, make sure you have Docker installed on your machine.
 
 ## AWS Access Control Lists (ACLs) for IAM
 
-This application is designed to be used with access to AWS restricted through **ACLs applied to an IAM account**[cite: 28]. [cite_start]Each ACL is designed to restrict access to the minimum number of components that an instance of CSSP would require[cite: 29]. [cite_start]Listed below are the ACLs that should be applied to the group containing the IAM user.
+This application is designed to be used with access to AWS restricted through **ACLs applied to an IAM account**. Each ACL is designed to restrict access to the minimum number of components that an instance of CSSP would require. Listed below are the ACLs that should be applied to the group containing the IAM user.
 
 ### AWS IAM ACL: Image Creation 
 
@@ -320,8 +321,8 @@ This application is designed to be used with access to AWS restricted through **
         ./build-container.sh
         ```
 2.  **Creating Google OAuth2 Keys (Optional)**:
-    * These steps are for the utilization of Google OAuth2 in development mode and are derived from the official documentation at Setting up OAuth 2.0 - API Console Help
-    * Go to the Google API Console.
+    * These steps are for the utilization of Google OAuth2 in development mode and are derived from the official documentation at [Setting up OAuth 2.0 - API Console Help]  (https://support.google.com/googleapi/answer/6158849?hl=en)
+    * Go to the [Google API Console](https://console.cloud.google.com/apis/dashboard).
     * Select a project or create a new one from the projects list.
     * Click on "**Credentials**" on the left side.
     * Create credentials and select "**OAuth client ID**".
@@ -409,8 +410,8 @@ This application is designed to be used with access to AWS restricted through **
         ./build-container.sh
         ```
 2.  **Creating Google OAuth2 Keys**:
-    * These steps are required for configuring Google OAuth2 in production mode.
-    * Go to the Google API Console.
+    * These steps are required for configuring Google OAuth2 in production mode and are derived from the official documentation at [Setting up OAuth 2.0 - API Console Help](https://support.google.com/googleapi/answer/6158849?hl=en).
+    * Go to the [Google API Console](https://console.cloud.google.com/apis/dashboard).
     * Select a project or create a new one from the projects list.
     * Click on "**Credentials**" on the left side.
     * Create credentials and select "**OAuth client ID**".
