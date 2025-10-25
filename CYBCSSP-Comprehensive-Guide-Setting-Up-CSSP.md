@@ -321,7 +321,7 @@ This application is designed to be used with access to AWS restricted through **
         ./build-container.sh
         ```
 2.  **Creating Google OAuth2 Keys (Optional)**:
-    * These steps are for the utilization of Google OAuth2 in development mode and are derived from the official documentation at [Setting up OAuth 2.0 - API Console Help]  (https://support.google.com/googleapi/answer/6158849?hl=en)
+    * These steps are for the utilization of Google OAuth2 in development mode and are derived from the official documentation at [Setting up OAuth 2.0 - API Console Help](https://support.google.com/googleapi/answer/6158849?hl=en)
     * Go to the [Google API Console](https://console.cloud.google.com/apis/dashboard).
     * Select a project or create a new one from the projects list.
     * Click on "**Credentials**" on the left side.
