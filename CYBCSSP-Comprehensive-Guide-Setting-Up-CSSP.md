@@ -384,7 +384,7 @@ This application is designed to be used with access to AWS restricted through **
             ```bash
             sqlitebrowser ~/capstone-cssp/railsapp/cssp/db/development.sqlite3
             ```
-*Congratulations! You have successfully set up and deployed CSSP in development mode. [cite_start]The application is now accessible at http://localhost:3000/.*
+*Congratulations! You have successfully set up and deployed CSSP in development mode. The application is now accessible at http://localhost:3000/.*
 
 ---
 
